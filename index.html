@@ -162,23 +162,20 @@
         const wsMsg = encodeURIComponent(`Hola, me interesa esta prenda de ${item.equipo} '${item.year} (ID: ${item.sku})`);
         const isDisponible = item.disponible === true || String(item.disponible).toUpperCase() === 'SÍ';
         
-		return `
-		<div class="card">
-		  <div class="card-image-container">
-		    <img class="card-image" src="${item.imagen || 'https://placehold.co/400'}" loading="lazy">
-		    
-		    <div class="badge badge-type">${String(item.tipo).toUpperCase()}</div>
-		  </div>
-		  <div class="card-body">
+        // Se movió la función onclick al contenedor de la imagen y se añadió cursor:pointer
+        return `
+        <div class="card">
+          <div class="card-image-container" onclick="openProductModal('${item.sku}')" style="cursor: pointer;" title="Haz clic para ver detalles">
+            <img class="card-image" src="${item.imagen || 'https://placehold.co/400'}" loading="lazy">
+            
+            <div class="badge badge-type">${String(item.tipo).toUpperCase()}</div>
+          </div>
+          <div class="card-body">
             <h3 style="font-size:16px; margin-bottom: 5px;">${item.equipo} '${item.year}</h3>
             <div class="price">Q${item.precio}</div>
             <div style="font-size:12px; color:#8293ac; margin-bottom: 15px;">Talla: ${item.talla} | SKU: ${item.sku}</div>
             
-            <div class="card-actions">
-                <button class="view-btn" onclick="openProductModal('${item.sku}')">
-				  <span class="txt-desktop">Ver Producto</span>
-				  <span class="txt-mobile">Ver</span>
-				</button>
+            <div class="card-actions" style="justify-content: flex-end;">
                 <a href="https://wa.me/${WS_NUMBER}?text=${wsMsg}" class="ws-icon-btn" target="_blank" title="Consultar por WhatsApp">
                     <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766 0 1.018.265 2.012.768 2.885l-.817 2.984 3.052-.801a5.727 5.727 0 002.765.713h.001c3.181 0 5.768-2.586 5.768-5.766 0-3.181-2.587-5.767-5.769-5.781zm3.167 8.351c-.173.488-.988.941-1.378 1.002-.389.061-.832.138-2.612-.598-2.115-.875-3.468-3.023-3.573-3.164-.105-.141-.853-1.135-.853-2.164 0-1.029.531-1.536.718-1.731.187-.195.405-.244.538-.244.133 0 .266.002.385.006.126.004.296-.048.455.337.173.418.59 1.439.643 1.545.053.106.088.23.018.371-.07.141-.105.23-.211.353-.105.123-.219.266-.314.354-.105.097-.215.203-.095.412.12.209.535.887 1.148 1.434.79.706 1.464.925 1.674 1.031.21.106.333.088.456-.053.123-.141.531-.618.675-.83.141-.212.282-.176.474-.106.192.071 1.215.572 1.425.678.21.106.35.159.4.247.05.088.05.512-.123 1.002zM12.002 2C6.478 2 2 6.477 2 12c0 1.761.463 3.42 1.306 4.887L2 22l5.233-1.354A9.957 9.957 0 0012.002 22c5.523 0 10-4.477 10-10S17.526 2 12.002 2z"/></svg>
                 </a>
@@ -187,7 +184,7 @@
         </div>
       `}).join('');
     }
-	
+    
     // LOGICA DEL MODAL POP-UP
     function openProductModal(sku) {
       const item = allItems.find(i => i.sku === sku);
