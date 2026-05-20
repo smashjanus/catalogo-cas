@@ -38,9 +38,9 @@ body.product-page {
 .nav-logo { height: 45px; width: 45px; object-fit: contain; }
 .nav-title { font-size: 20px; font-weight: 700; color: #2490ff; white-space: nowrap; }
 .nav-slogan { margin: 0; color: white; font-weight: normal; }
-.nav-social-link { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; flex: 0 0 auto; }
+.nav-social-link { width: 44px; height: 44px; max-width: 44px; max-height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; flex: 0 0 44px; overflow: hidden; padding: 0; line-height: 0; }
 .nav-social-link:hover { background: #142238; }
-.nav-social-icon { width: 24px; height: 24px; display: block; }
+.nav-social-icon, .nav-social-link img { width: 24px !important; height: 24px !important; max-width: 24px !important; max-height: 24px !important; min-width: 24px; min-height: 24px; object-fit: contain; display: block; flex: 0 0 24px; }
 
 /* =========================================
    BOTONES UNIFICADOS
@@ -212,8 +212,8 @@ textarea { resize: vertical; min-height: 120px; }
   .nav-text-container { flex-direction: column; gap: 2px; align-items: flex-start; }
   .nav-title { font-size: 15px; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
   .nav-slogan { display: none; }
-  .nav-social-link { width: 40px; height: 40px; border-radius: 10px; }
-  .nav-social-icon { width: 23px; height: 23px; }
+  .nav-social-link { width: 40px; height: 40px; max-width: 40px; max-height: 40px; flex-basis: 40px; border-radius: 10px; }
+  .nav-social-icon, .nav-social-link img { width: 23px !important; height: 23px !important; max-width: 23px !important; max-height: 23px !important; min-width: 23px; min-height: 23px; flex-basis: 23px; }
   .product-page-container { width: min(100% - 24px, 1200px); }
   .product-main-image-wrap { min-height: 330px; height: 52vh; border-radius: 14px; }
   .product-zoom-controls { gap: 10px; }
