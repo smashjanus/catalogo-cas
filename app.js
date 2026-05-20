@@ -31,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Inicializa el comportamiento de arrastrar y soltar imágenes en el panel
         setupDragAndDrop();
         setupAdminForms();
+    } else if (document.body.classList.contains('product-page')) {
+        loadProductPage();
     }
 });
 
@@ -48,6 +50,20 @@ function normalizeInventoryPayload(data) {
   if (Array.isArray(data?.inventory)) return data.inventory;
   if (Array.isArray(data?.data)) return data.data;
   return [];
+}
+
+function getProductUrl(sku) {
+  const url = new URL('product.html', window.location.href);
+  url.searchParams.set('sku', sku);
+  return url.href;
+}
+
+function getProductImages(item) {
+  const gallery = item.galeria
+    ? (typeof item.galeria === 'string' ? item.galeria.split(',') : item.galeria)
+    : [item.imagen || 'image_unavailable.png'];
+
+  return gallery.map(src => String(src).trim()).filter(Boolean);
 }
 
 function getJsonp(params, timeoutMs = 15000) {
@@ -211,17 +227,12 @@ function openProductModal(sku) {
 
   const wsMsg = encodeURIComponent(`Hola, me interesa el jersey del ${item.equipo} '${item.year} (SKU: ${item.sku})`);
   document.getElementById('modalWsBtn').href = `https://wa.me/${WS_NUMBER}?text=${wsMsg}`;
+  document.getElementById('modalFullPageBtn').href = getProductUrl(item.sku);
 
   // Configuración de la Galería interna del Modal
   const mainImg = document.getElementById('modalMainImage');
   const thumbContainer = document.getElementById('modalThumbnails');
-  
-  let images = [];
-  if (item.galeria) {
-      images = typeof item.galeria === 'string' ? item.galeria.split(',') : item.galeria;
-  } else {
-      images = [item.imagen || 'image_unavailable.png'];
-  }
+  const images = getProductImages(item);
 
   mainImg.src = images[0];
   thumbContainer.innerHTML = images.map(src => 
@@ -235,6 +246,146 @@ function openProductModal(sku) {
 
 function closeProductModal() {
   document.getElementById('productModal').style.display = "none";
+}
+
+async function loadProductPage() {
+  const params = new URLSearchParams(window.location.search);
+  const sku = params.get('sku');
+  const view = document.getElementById('productPageContent');
+
+  if (!sku) {
+    view.innerHTML = '<div class="loading">No se especifico un SKU para mostrar.</div>';
+    return;
+  }
+
+  try {
+    const result = await getJsonp({ action: 'getSku', sku });
+    if (!result.success || !result.item) {
+      view.innerHTML = '<div class="loading">No encontramos una prenda con ese SKU.</div>';
+      return;
+    }
+
+    renderProductPage(result.item);
+  } catch(error) {
+    view.innerHTML = '<div class="loading">Hubo un problema cargando esta prenda.</div>';
+  }
+}
+
+function renderProductPage(item) {
+  const view = document.getElementById('productPageContent');
+  const images = getProductImages(item);
+  const wsMsg = encodeURIComponent(`Hola, me interesa el jersey del ${item.equipo} '${item.year} (SKU: ${item.sku})`);
+  const productUrl = getProductUrl(item.sku);
+
+  document.title = `${item.equipo} ${item.year} | CAS`;
+
+  view.innerHTML = `
+    <section class="product-detail-layout">
+      <div class="product-gallery">
+        <div class="product-main-image-wrap" id="productImageWrap">
+          <img id="productMainImage" src="${images[0]}" alt="${item.equipo} ${item.year}" class="product-main-image">
+        </div>
+        <div class="product-zoom-controls">
+          <button type="button" class="secondary-btn" onclick="setProductZoom(-0.25)">Alejar</button>
+          <span id="zoomLabel">100%</span>
+          <button type="button" class="secondary-btn" onclick="setProductZoom(0.25)">Acercar</button>
+        </div>
+        <div class="product-thumbnails">
+          ${images.map((src, index) => `
+            <button type="button" class="product-thumb ${index === 0 ? 'active' : ''}" onclick="selectProductImage('${src.replace(/'/g, "\\'")}', this)">
+              <img src="${src}" alt="Vista ${index + 1} de ${item.equipo}">
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
+      <aside class="product-info-panel">
+        <a href="index.html" class="product-back-link">Regresar al catalogo</a>
+        <div class="product-type">${String(item.tipo || '').toUpperCase()}</div>
+        <h1>${item.equipo} '${item.year}</h1>
+        <div class="product-page-price">Q${item.precio}</div>
+
+        <div class="product-facts">
+          <div><span>Talla</span><strong>${item.talla || '-'}</strong></div>
+          <div><span>SKU</span><strong>${item.sku || '-'}</strong></div>
+          <div><span>Estado</span><strong>${item.disponible ? 'Disponible' : 'No disponible'}</strong></div>
+        </div>
+
+        <div class="product-notes">
+          <h2>Descripcion / Notas</h2>
+          <p>${item.notas || item.detalles || 'Sin notas adicionales.'}</p>
+        </div>
+
+        <a href="https://wa.me/${WS_NUMBER}?text=${wsMsg}" class="ws-btn-full" target="_blank">Consultar WhatsApp</a>
+        <button type="button" class="secondary-btn share-url-btn" onclick="copyProductUrl('${productUrl}')">Compartir URL</button>
+        <input id="productShareInput" class="product-share-input" type="text" value="${productUrl}" readonly>
+        <div id="copyStatus" class="copy-status" aria-live="polite"></div>
+      </aside>
+    </section>
+  `;
+}
+
+let productZoom = 1;
+function selectProductImage(src, button) {
+  document.getElementById('productMainImage').src = src;
+  productZoom = 1;
+  updateProductZoom();
+  document.querySelectorAll('.product-thumb').forEach(thumb => thumb.classList.remove('active'));
+  button.classList.add('active');
+}
+
+function setProductZoom(delta) {
+  productZoom = Math.min(2.5, Math.max(1, productZoom + delta));
+  updateProductZoom();
+}
+
+function updateProductZoom() {
+  const image = document.getElementById('productMainImage');
+  const label = document.getElementById('zoomLabel');
+  const wrap = document.getElementById('productImageWrap');
+  if (!image || !label || !wrap) return;
+
+  image.style.transform = `scale(${productZoom})`;
+  label.innerText = `${Math.round(productZoom * 100)}%`;
+  wrap.classList.toggle('is-zoomed', productZoom > 1);
+}
+
+async function copyProductUrl(url) {
+  const status = document.getElementById('copyStatus');
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(url);
+    } else {
+      copyTextFallback(url);
+    }
+    status.innerText = 'URL copiada al portapapeles.';
+  } catch(error) {
+    if (copyTextFallback(url)) {
+      status.innerText = 'URL copiada al portapapeles.';
+    } else {
+      const shareInput = document.getElementById('productShareInput');
+      if (shareInput) {
+        shareInput.focus();
+        shareInput.select();
+      }
+      status.innerText = 'No se pudo copiar automaticamente. La URL quedo seleccionada para copiarla manualmente.';
+    }
+  }
+}
+
+function copyTextFallback(text) {
+  const input = document.createElement('textarea');
+  input.value = text;
+  input.setAttribute('readonly', '');
+  input.style.position = 'fixed';
+  input.style.top = '0';
+  input.style.left = '-9999px';
+  document.body.appendChild(input);
+  input.focus();
+  input.select();
+  const copied = document.execCommand('copy');
+  input.remove();
+  return copied;
 }
 
 
