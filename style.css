@@ -32,6 +32,9 @@ body.product-page {
    NAVEGACIÓN (INDEX)
 ========================================= */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #0b1729; border-bottom: 1px solid #1d314d; display: flex; align-items: center; padding: 0 30px; z-index: 1000; justify-content: space-between; }
+.menu-toggle { width: 44px; height: 44px; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; flex: 0 0 44px; }
+.menu-toggle span { width: 20px; height: 2px; border-radius: 999px; background: #d9e5f5; display: block; }
+.menu-toggle:hover { background: #142238; }
 .nav-brand { display: flex; align-items: center; gap: 15px; }
 .nav-home-link { color: inherit; text-decoration: none; min-width: 0; }
 .nav-text-container { display: flex; align-items: baseline; gap: 20px; }
@@ -41,6 +44,17 @@ body.product-page {
 .nav-social-link { width: 44px; height: 44px; max-width: 44px; max-height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; flex: 0 0 44px; overflow: hidden; padding: 0; line-height: 0; }
 .nav-social-link:hover { background: #142238; }
 .nav-social-icon, .nav-social-link img { width: 24px !important; height: 24px !important; max-width: 24px !important; max-height: 24px !important; min-width: 24px; min-height: 24px; object-fit: contain; display: block; flex: 0 0 24px; }
+
+.side-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.62); z-index: 1090; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
+.side-menu { position: fixed; top: 0; left: 0; height: 100vh; width: min(330px, 86vw); background: #081426; border-right: 1px solid #1f3350; z-index: 1100; transform: translateX(-100%); transition: transform .24s ease; box-shadow: 16px 0 40px rgba(0,0,0,.45); padding: 22px; display: flex; flex-direction: column; }
+.side-menu.open { transform: translateX(0); }
+.side-menu-overlay.open { opacity: 1; pointer-events: auto; }
+.side-menu-header { display: flex; align-items: center; justify-content: space-between; color: #d9e5f5; font-size: 20px; font-weight: 700; padding-bottom: 18px; border-bottom: 1px solid #1a2d46; }
+.side-menu-close { width: 40px; height: 40px; border-radius: 10px; background: #142238; color: #d9e5f5; font-size: 28px; line-height: 1; }
+.side-menu-links { display: grid; gap: 10px; padding-top: 18px; }
+.side-menu-links a { color: #d9e5f5; text-decoration: none; background: #0a1728; border: 1px solid #1b2f49; border-radius: 12px; padding: 15px 16px; font-weight: 700; line-height: 1.25; }
+.side-menu-links a:hover { border-color: #2490ff; background: #10233c; }
+.future-events-anchor { height: 1px; }
 
 /* =========================================
    BOTONES UNIFICADOS
@@ -207,6 +221,8 @@ textarea { resize: vertical; min-height: 120px; }
 @media (max-width: 768px) {
   body.index-page, body.product-page { padding-top: 82px; }
   .navbar { height: 64px; padding: 8px 14px; gap: 10px; }
+  .menu-toggle { width: 40px; height: 40px; border-radius: 10px; flex-basis: 40px; }
+  .menu-toggle span { width: 18px; }
   .nav-brand { gap: 10px; flex: 1 1 auto; min-width: 0; }
   .nav-logo { width: 40px; height: 40px; flex: 0 0 auto; }
   .nav-text-container { flex-direction: column; gap: 2px; align-items: flex-start; }
@@ -301,4 +317,119 @@ textarea { resize: vertical; min-height: 120px; }
     width: 120px;
     height: 90px;
   }
+}
+
+/* --- BARRA HORIZONTAL DE CATEGORÍAS --- */
+.categories-horizontal-bar {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto; /* Permite scroll horizontal si no caben */
+  margin-bottom: 20px;
+  padding-bottom: 8px;
+  align-items: center;
+}
+
+.categories-horizontal-bar::-webkit-scrollbar {
+  height: 6px;
+}
+.categories-horizontal-bar::-webkit-scrollbar-thumb {
+  background: #1f3350;
+  border-radius: 4px;
+}
+
+.cat-btn {
+  background: #081426;
+  color: #9eb1ca;
+  border: 1px solid #1f3350;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.cat-btn:hover, .cat-btn.active {
+  background: #2490ff;
+  color: #ffffff;
+  border-color: #2490ff;
+}
+
+/* --- SUBMENÚ HAMBURGUESA (ACORDEÓN) --- */
+.side-menu-accordion {
+  width: 100%;
+}
+
+.side-menu-accordion summary {
+  cursor: pointer;
+  padding: 15px 25px;
+  color: #d9e5f5;
+  font-size: 16px;
+  font-weight: 600;
+  border-bottom: 1px solid #1f3350;
+  list-style: none; /* Oculta la flecha por defecto en algunos navegadores */
+}
+
+/* Estilo para la flecha nativa si no se oculta del todo */
+.side-menu-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+.side-menu-accordion summary:hover {
+  background: #0a1728;
+  color: #2490ff;
+}
+
+.accordion-content {
+  background: #050d18;
+  display: flex;
+  flex-direction: column;
+}
+
+.accordion-content a {
+  padding: 12px 25px 12px 45px !important; /* Mayor padding a la izquierda para simular submenú */
+  font-size: 14px !important;
+  color: #9eb1ca !important;
+  border-bottom: 1px solid #0a1728 !important;
+}
+
+.accordion-content a:hover {
+  color: #2490ff !important;
+  background: #081426;
+}
+
+/* --- ICONOS EN EL MENÚ LATERAL --- */
+.menu-icon-link {
+  display: flex !important; /* Forza Flexbox para alinear texto con imagen */
+  align-items: center;
+  gap: 12px; 
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+/* --- BOTÓN DE IMAGEN DE WHATSAPP (MODAL) --- */
+.ws-btn-image {
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  text-decoration: none;
+}
+
+.ws-btn-image img {
+  width: 100%;
+  max-width: 220px; /* Evita que la imagen sea gigante en monitores grandes */
+  height: auto;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.ws-btn-image:hover img {
+  transform: scale(1.05); /* Pequeño efecto de zoom al pasar el mouse */
 }
