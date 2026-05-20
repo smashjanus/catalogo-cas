@@ -33,10 +33,14 @@ body.product-page {
 ========================================= */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #0b1729; border-bottom: 1px solid #1d314d; display: flex; align-items: center; padding: 0 30px; z-index: 1000; justify-content: space-between; }
 .nav-brand { display: flex; align-items: center; gap: 15px; }
+.nav-home-link { color: inherit; text-decoration: none; min-width: 0; }
 .nav-text-container { display: flex; align-items: baseline; gap: 20px; }
 .nav-logo { height: 45px; width: 45px; object-fit: contain; }
 .nav-title { font-size: 20px; font-weight: 700; color: #2490ff; white-space: nowrap; }
 .nav-slogan { margin: 0; color: white; font-weight: normal; }
+.nav-social-link { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; flex: 0 0 auto; }
+.nav-social-link:hover { background: #142238; }
+.nav-social-icon { width: 24px; height: 24px; display: block; }
 
 /* =========================================
    BOTONES UNIFICADOS
@@ -123,9 +127,9 @@ textarea { resize: vertical; min-height: 120px; }
 .product-page-container { width: min(1200px, calc(100% - 40px)); margin: 0 auto; }
 .product-detail-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(330px, .75fr); gap: 28px; align-items: start; }
 .product-gallery { min-width: 0; }
-.product-main-image-wrap { background: #081426; border: 1px solid #1b2f49; border-radius: 18px; height: min(72vh, 720px); min-height: 460px; display: flex; align-items: center; justify-content: center; overflow: auto; position: relative; }
-.product-main-image-wrap.is-zoomed { cursor: grab; align-items: flex-start; justify-content: flex-start; }
-.product-main-image { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: top left; transition: transform .18s ease; }
+.product-main-image-wrap { background: #081426; border: 1px solid #1b2f49; border-radius: 18px; height: min(72vh, 720px); min-height: 460px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+.product-main-image-wrap.is-zoomed { cursor: zoom-in; }
+.product-main-image { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: center center; transition: transform .18s ease; }
 .product-zoom-controls { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 16px 0; }
 .product-zoom-controls .secondary-btn { padding: 11px 16px; }
 #zoomLabel { color: #d9e5f5; font-weight: 700; min-width: 58px; text-align: center; }
@@ -191,6 +195,7 @@ textarea { resize: vertical; min-height: 120px; }
   .product-main-image-wrap { min-height: 360px; height: 58vh; }
   .product-facts { grid-template-columns: 1fr; }
   .product-info-panel h1 { font-size: 28px; }
+  .nav-slogan { display: none; }
   
   .filters-grid { grid-template-columns: 1fr 1fr; }
   .filters-grid .field-group:first-child { grid-column: span 2; }
@@ -200,10 +205,22 @@ textarea { resize: vertical; min-height: 120px; }
 }
 
 @media (max-width: 768px) {
-  .navbar { height: auto; padding: 10px 15px; }
+  body.index-page, body.product-page { padding-top: 82px; }
+  .navbar { height: 64px; padding: 8px 14px; gap: 10px; }
+  .nav-brand { gap: 10px; flex: 1 1 auto; min-width: 0; }
+  .nav-logo { width: 40px; height: 40px; flex: 0 0 auto; }
   .nav-text-container { flex-direction: column; gap: 2px; align-items: flex-start; }
-  .nav-title { font-size: 16px; white-space: normal; }
-  .nav-slogan { font-size: 11px; }
+  .nav-title { font-size: 15px; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  .nav-slogan { display: none; }
+  .nav-social-link { width: 40px; height: 40px; border-radius: 10px; }
+  .nav-social-icon { width: 23px; height: 23px; }
+  .product-page-container { width: min(100% - 24px, 1200px); }
+  .product-main-image-wrap { min-height: 330px; height: 52vh; border-radius: 14px; }
+  .product-zoom-controls { gap: 10px; }
+  .product-zoom-controls .secondary-btn { padding: 10px 12px; font-size: 13px; }
+  .product-info-panel { padding: 20px; border-radius: 14px; }
+  .product-thumbnails { grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 10px; }
+  .product-thumb { height: 84px; }
 }
 
 /* =========================================
