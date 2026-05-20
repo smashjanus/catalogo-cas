@@ -26,8 +26,36 @@
   </nav>
 	
   <div class="container">
+    <div class="slider-container">
+      <div class="slider-track">
+        <div class="slider-group">
+          <img src="bannerImages/cas1.jpg" alt="Jersey 1">
+          <img src="bannerImages/cas2.jpg" alt="Jersey 2">
+          <img src="bannerImages/cas3.jpg" alt="Jersey 3">
+          <img src="bannerImages/cas4.jpg" alt="Jersey 4">
+          <img src="bannerImages/cas5.jpg" alt="Jersey 5">
+          <img src="bannerImages/cas6.jpg" alt="Jersey 6">
+          <img src="bannerImages/cas7.jpg" alt="Jersey 7">
+          <img src="bannerImages/cas8.jpg" alt="Jersey 8">
+          <img src="bannerImages/cas9.jpg" alt="Jersey 9">
+          <img src="bannerImages/cas10.jpg" alt="Jersey 10">
+        </div>
+        <div class="slider-group">
+          <img src="bannerImages/cas1.jpg" alt="Jersey 1">
+          <img src="bannerImages/cas2.jpg" alt="Jersey 2">
+          <img src="bannerImages/cas3.jpg" alt="Jersey 3">
+          <img src="bannerImages/cas4.jpg" alt="Jersey 4">
+          <img src="bannerImages/cas5.jpg" alt="Jersey 5">
+          <img src="bannerImages/cas6.jpg" alt="Jersey 6">
+          <img src="bannerImages/cas7.jpg" alt="Jersey 7">
+          <img src="bannerImages/cas8.jpg" alt="Jersey 8">
+          <img src="bannerImages/cas9.jpg" alt="Jersey 9">
+          <img src="bannerImages/cas10.jpg" alt="Jersey 10">
+        </div>
+      </div>
+    </div>
         <div class="home-message-group">
-          <h2>Listado de Camisolas disponibles en tienda.</h2>
+          <h2>STOCK DISPONIBLE EN TIENDA - LA POPULAR</h2>
           <label2>Vía 4 1-17 Zona 4, 4 Grados Norte</label2>
         </div>    
   </div>     
@@ -64,6 +92,15 @@
             <option value="az">A - Z</option>
           </select>
         </div>
+        <div class="field-group">
+          <label>Mostrar</label>
+          <select id="perPage" onchange="changePerPage()">
+            <option value="25">25 por página</option>
+            <option value="50">50 por página</option>
+            <option value="75">75 por página</option>
+            <option value="100">100 por página</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -71,6 +108,11 @@
     
     <div class="catalog-grid" id="catalogGrid">
       <div class="loading">Cargando inventario...</div>
+    </div>
+    <div class="pagination-controls" id="paginationControls" style="display: none;">
+      <button class="secondary-btn" id="prevPageBtn" onclick="changePage(-1)">Anterior</button>
+      <span id="pageIndicator" style="color: #d9e5f5; font-weight: 600;">Página 1 de 1</span>
+      <button class="secondary-btn" id="nextPageBtn" onclick="changePage(1)">Siguiente</button>
     </div>
   </div>
 
@@ -101,137 +143,6 @@
     </div>
   </div>
 
-  <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyQJcgLt6SLul6TUDhMGmDKBVjSV9DRysKV5rxxDb0dZvtmE4uEXjksVEkeFoSQoG4SXQ/exec"; 
-    const WS_NUMBER = "50258656376"; 
-    
-    let allItems = [], filteredItems = [];
-
-    async function loadInventory(){
-      const cb = 'callback_' + Date.now();
-      const script = document.createElement('script');
-      window[cb] = (data) => {
-        allItems = data;
-        applyFilters();
-        delete window[cb];
-        script.remove();
-      };
-      script.src = `${WEB_APP_URL}?action=getInventory&callback=${cb}`;
-      document.body.appendChild(script);
-    }
-
-    function applyFilters(){
-      const search = document.getElementById('searchInput').value.toLowerCase().trim();
-      const size = document.getElementById('sizeFilter').value;
-      const type = document.getElementById('typeFilter').value;
-      const onlyAvail = true;
-      const sort = document.getElementById('sortOrder').value;
-
-      filteredItems = allItems.filter(item => {
-        const matchesSearch = !search || 
-                             String(item.sku).toLowerCase().includes(search) || 
-                             String(item.equipo).toLowerCase().includes(search);
-        
-        const matchesSize = !size || String(item.talla) === size;
-        const matchesType = !type || String(item.tipo) === type;
-        
-        const isDisponible = item.disponible === true || String(item.disponible).toUpperCase() === 'SÍ';
-        const matchesAvail = !onlyAvail || isDisponible;
-        const activeOnly = item.estado !== 'Eliminado';
-
-        return matchesSearch && matchesSize && matchesType && matchesAvail && activeOnly;
-      });
-
-      if (sort === 'p-low') filteredItems.sort((a, b) => Number(a.precio) - Number(b.precio));
-      if (sort === 'p-high') filteredItems.sort((a, b) => Number(b.precio) - Number(a.precio));
-      if (sort === 'az') filteredItems.sort((a, b) => a.equipo.localeCompare(b.equipo));
-
-      render();
-    }
-
-    function render(){
-      const grid = document.getElementById('catalogGrid');
-      document.getElementById('resultCount').innerText = `${filteredItems.length} prendas encontradas`;
-      
-      if(filteredItems.length === 0) {
-        grid.innerHTML = '<div class="loading">No se encontraron resultados.</div>';
-        return;
-      }
-
-      grid.innerHTML = filteredItems.map(item => {
-        const wsMsg = encodeURIComponent(`Hola, me interesa esta prenda de ${item.equipo} '${item.year} (ID: ${item.sku})`);
-        const isDisponible = item.disponible === true || String(item.disponible).toUpperCase() === 'SÍ';
-        
-        // Se movió la función onclick al contenedor de la imagen y se añadió cursor:pointer
-        return `
-        <div class="card">
-          <div class="card-image-container" onclick="openProductModal('${item.sku}')" style="cursor: pointer;" title="Haz clic para ver detalles">
-            <img class="card-image" src="${item.imagen || 'https://placehold.co/400'}" loading="lazy">
-            
-            <div class="badge badge-type">${String(item.tipo).toUpperCase()}</div>
-          </div>
-          <div class="card-body">
-            <h3 style="font-size:16px; margin-bottom: 5px;">${item.equipo} '${item.year}</h3>
-            <div class="price">Q${item.precio}</div>
-            <div style="font-size:12px; color:#8293ac; margin-bottom: 15px;">Talla: ${item.talla} | SKU: ${item.sku}</div>
-            
-            <div class="card-actions" style="justify-content: flex-end;">
-                <a href="https://wa.me/${WS_NUMBER}?text=${wsMsg}" class="ws-icon-btn" target="_blank" title="Consultar por WhatsApp">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766 0 1.018.265 2.012.768 2.885l-.817 2.984 3.052-.801a5.727 5.727 0 002.765.713h.001c3.181 0 5.768-2.586 5.768-5.766 0-3.181-2.587-5.767-5.769-5.781zm3.167 8.351c-.173.488-.988.941-1.378 1.002-.389.061-.832.138-2.612-.598-2.115-.875-3.468-3.023-3.573-3.164-.105-.141-.853-1.135-.853-2.164 0-1.029.531-1.536.718-1.731.187-.195.405-.244.538-.244.133 0 .266.002.385.006.126.004.296-.048.455.337.173.418.59 1.439.643 1.545.053.106.088.23.018.371-.07.141-.105.23-.211.353-.105.123-.219.266-.314.354-.105.097-.215.203-.095.412.12.209.535.887 1.148 1.434.79.706 1.464.925 1.674 1.031.21.106.333.088.456-.053.123-.141.531-.618.675-.83.141-.212.282-.176.474-.106.192.071 1.215.572 1.425.678.21.106.35.159.4.247.05.088.05.512-.123 1.002zM12.002 2C6.478 2 2 6.477 2 12c0 1.761.463 3.42 1.306 4.887L2 22l5.233-1.354A9.957 9.957 0 0012.002 22c5.523 0 10-4.477 10-10S17.526 2 12.002 2z"/></svg>
-                </a>
-            </div>
-          </div>
-        </div>
-      `}).join('');
-    }
-    
-    // LOGICA DEL MODAL POP-UP
-    function openProductModal(sku) {
-      const item = allItems.find(i => i.sku === sku);
-      if(!item) return;
-
-      document.getElementById('modalTitle').innerText = `${item.equipo} '${item.year}`;
-      document.getElementById('modalPrice').innerText = `Q${item.precio}`;
-      document.getElementById('modalSize').innerText = item.talla;
-      document.getElementById('modalType').innerText = item.tipo;
-      document.getElementById('modalSku').innerText = item.sku;
-      document.getElementById('modalNotes').innerText = item.notas || "Sin notas adicionales.";
-      
-      const wsMsg = encodeURIComponent(`Hola, me interesa el jersey del ${item.equipo} '${item.year} (SKU: ${item.sku})`);
-      document.getElementById('modalWsBtn').href = `https://wa.me/${WS_NUMBER}?text=${wsMsg}`;
-
-      // Configuración de la Galería
-      const mainImg = document.getElementById('modalMainImage');
-      const thumbContainer = document.getElementById('modalThumbnails');
-      
-      let images = [];
-      if (item.galeria) {
-          images = typeof item.galeria === 'string' ? item.galeria.split(',') : item.galeria;
-      } else {
-          images = [item.imagen || 'https://placehold.co/400'];
-      }
-
-      mainImg.src = images[0];
-      thumbContainer.innerHTML = images.map(src => 
-        `<img src="${src}" onclick="document.getElementById('modalMainImage').src='${src}'" 
-          style="width:70px; height:70px; object-fit:cover; border-radius:8px; cursor:pointer; border:2px solid transparent; transition:0.2s;" 
-          onmouseover="this.style.borderColor='#2490ff'" onmouseout="this.style.borderColor='transparent'">`
-      ).join('');
-
-      document.getElementById('productModal').style.display = "flex";
-    }
-
-    function closeProductModal() {
-      document.getElementById('productModal').style.display = "none";
-    }
-
-    // Cerrar el modal al hacer click afuera
-    window.addEventListener('click', function(e) {
-      const modal = document.getElementById('productModal');
-      if (e.target === modal) closeProductModal();
-    });
-
-    loadInventory();
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
