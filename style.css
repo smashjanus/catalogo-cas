@@ -184,3 +184,62 @@ textarea { resize: vertical; min-height: 120px; }
     display: inline !important; /* Muestra "Ver" */
   }
 }
+/* =========================================
+   CINTILLO INFINITO (MARQUEE)
+========================================= */
+.slider-container {
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  padding: 10px 0 25px 0;
+}
+
+.slider-track {
+  display: flex;
+  width: max-content;
+  /* Puedes cambiar '40s' por un número menor si lo quieres más rápido */
+  animation: scroll 40s linear infinite; 
+}
+
+.slider-track:hover {
+  animation-play-state: paused; /* Opcional: pausa la animación al pasar el mouse */
+}
+
+.slider-group {
+  display: flex;
+  gap: 20px;
+  padding-right: 20px; /* Separación antes del segundo grupo */
+}
+
+.slider-group img {
+  width: 180px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid #1b2f49;
+}
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* =========================================
+   PAGINACIÓN
+========================================= */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 40px;
+  padding-bottom: 20px;
+}
+
+/* Responsive para Cintillo */
+@media (max-width: 850px) {
+  .slider-group img {
+    width: 120px;
+    height: 90px;
+  }
+}
