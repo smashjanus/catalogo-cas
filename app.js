@@ -1,12 +1,12 @@
 /* ==========================================================================
-   1. CONFIGURACIÓN Y VARIABLES GLOBALES (Compartidas por ambos)
+   1. CONFIGURACIÓN Y VARIABLES GLOBALES (Compartidas por los html)
    ========================================================================== */
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbynTchtEIJ-HmdGR7EfxzKIGeq-F5nhepMUJSxTs9Xy8QtbDzEu_PYz7pS-SNgC0JvSeQ/exec"; // Reemplaza por tu URL real si cambia
-const WS_NUMBER = "50231566415"; // Número de WhatsApp configurado
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwec9_6ZQ9AX26x-5JkgOcIjyDpKhQrjBr9778eMgOJAbuY-yCQNTOuoJ83JqV_j98iJw/exec"; // Reemplaza por tu URL real si cambia
+const WS_NUMBER = "+50258656376"; // Número de WhatsApp
 
 let allItems = [], filteredItems = [];
 let currentPage = 1;
-let itemsPerPage = 25; // Default solicitado
+let itemsPerPage = 24; 
 let currentItem = null;
 let editDirty = false;
 
@@ -14,6 +14,8 @@ let editDirty = false;
    2. ENRUTADOR AUTOMÁTICO (Detecta la página actual al cargar)
    ========================================================================== */
 document.addEventListener('DOMContentLoaded', () => {
+    setupSideMenu();
+
     // Si el body tiene la clase de la tienda
     if (document.body.classList.contains('index-page')) {
         loadInventory(); 
@@ -36,11 +38,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+function setupSideMenu() {
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeSideMenu();
+  });
+}
+
+function openSideMenu() {
+  const menu = document.getElementById('sideMenu');
+  const overlay = document.getElementById('sideMenuOverlay');
+  const toggle = document.querySelector('.menu-toggle');
+  if (!menu || !overlay) return;
+
+  menu.classList.add('open');
+  overlay.classList.add('open');
+  menu.setAttribute('aria-hidden', 'false');
+  toggle?.setAttribute('aria-expanded', 'true');
+}
+
+function closeSideMenu() {
+  const menu = document.getElementById('sideMenu');
+  const overlay = document.getElementById('sideMenuOverlay');
+  const toggle = document.querySelector('.menu-toggle');
+  if (!menu || !overlay) return;
+
+  menu.classList.remove('open');
+  overlay.classList.remove('open');
+  menu.setAttribute('aria-hidden', 'true');
+  toggle?.setAttribute('aria-expanded', 'false');
+}
+
 /* ==========================================================================
    3. LÓGICA PARA LA TIENDA PRINCIPAL (index.html)
    ========================================================================== */
 function showInventoryError(message) {
-  document.getElementById('resultCount').innerText = 'No se pudo cargar el inventario';
+  document.getElementById('resultCount').innerText = 'Hubo un error al cargar el inventario, una disculpa. Intenta nuevamente.';
   document.getElementById('catalogGrid').innerHTML = `<div class="loading">${message}</div>`;
 }
 
@@ -104,7 +136,7 @@ async function loadInventory(){
   } catch(error) {
     const message = error.message === 'timeout'
       ? 'El inventario está tardando demasiado en responder. Intenta recargar la página.'
-      : 'Hubo un problema conectando con la base de datos.';
+      : 'Una disculpa. Hubo un problema conectando con la base de datos.';
     showInventoryError(message);
   }
 }
@@ -124,7 +156,6 @@ function changePage(delta) {
   if (currentPage > totalPages) currentPage = totalPages;
   
   render();
-  // Sube el scroll de forma suave hacia el contador de resultados
   document.getElementById('resultCount').scrollIntoView({ behavior: 'smooth', block: 'end' });
 }
 
@@ -132,7 +163,7 @@ function applyFilters(){
   const search = document.getElementById('searchInput').value.toLowerCase().trim();
   const size = document.getElementById('sizeFilter').value;
   const type = document.getElementById('typeFilter').value;
-  const onlyAvail = true; // Forzado a solo disponibles según tu código original
+  const onlyAvail = true; 
   const sort = document.getElementById('sortOrder').value;
 
   filteredItems = allItems.filter(item => {
@@ -178,7 +209,7 @@ function render(){
   const paginatedItems = filteredItems.slice(start, end);
 
   grid.innerHTML = paginatedItems.map(item => {
-    const wsMsg = encodeURIComponent(`Hola, me interesa el jersey del ${item.equipo} '${item.year} (SKU: ${item.sku})`);
+    const wsMsg = encodeURIComponent(`Hola, me interesa la prenda de ${item.equipo} '${item.year} (ID: ${item.sku})`);
     
     return `
     <div class="card">
@@ -201,7 +232,6 @@ function render(){
     `;
   }).join('');
 
-  // Actualizar UI de paginación
   if (pagControls) {
     if (totalPages > 1) {
       pagControls.style.display = 'flex';
@@ -274,7 +304,7 @@ async function loadProductPage() {
 function renderProductPage(item) {
   const view = document.getElementById('productPageContent');
   const images = getProductImages(item);
-  const wsMsg = encodeURIComponent(`Hola, me interesa el jersey del ${item.equipo} '${item.year} (SKU: ${item.sku})`);
+  const wsMsg = encodeURIComponent(`Hola, me interesa la prenda de ${item.equipo} '${item.year} (ID: ${item.sku})`);
   const productUrl = getProductUrl(item.sku);
 
   document.title = `${item.equipo} ${item.year} | CAS`;
