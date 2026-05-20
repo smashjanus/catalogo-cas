@@ -3,32 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Producto | CAS</title>
+  <title>CAS</title>
 
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  
+  <link rel="stylesheet" href="style.css"> 
 </head>
 
-<body class="product-page">
+<body class="index-page">
+
   <nav class="navbar">
     <a href="index.html" class="nav-brand nav-home-link" aria-label="Volver al inventario">
       <img src="logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
       <div class="nav-text-container">
         <span class="nav-title">Central America Shirts</span>
-        <h6 class="nav-slogan">Llevando el futbol de Guate a todo el mundo</h6>
+        <h6 class="nav-slogan">Llevando el fútbol de Guate a todo el mundo 🇧🇷🇦🇷🇨🇴🇺🇲🇨🇱🇲🇽</h6>
       </div>
     </a>
     <a href="https://instagram.com" class="nav-social-link" target="_blank" rel="noopener" aria-label="Instagram">
-      <img src="instagram_logo.svg" alt="Instagram" class="nav-social-icon">
+      <img src="instagram_logo.svg" alt="Instagram" class="nav-social-icon" width="24" height="24">
     </a>
   </nav>
+	
+  <div class="container">
+    <div class="slider-container">
+      <div class="slider-track">
+        <div class="slider-group">
+          <img src="bannerImages/cas1.jpg" alt="Jersey 1">
+          <img src="bannerImages/cas2.jpg" alt="Jersey 2">
+          <img src="bannerImages/cas3.jpg" alt="Jersey 3">
+          <img src="bannerImages/cas4.jpg" alt="Jersey 4">
+          <img src="bannerImages/cas5.jpg" alt="Jersey 5">
+          <img src="bannerImages/cas6.jpg" alt="Jersey 6">
+          <img src="bannerImages/cas7.jpg" alt="Jersey 7">
+          <img src="bannerImages/cas8.jpg" alt="Jersey 8">
+          <img src="bannerImages/cas9.jpg" alt="Jersey 9">
+          <img src="bannerImages/cas10.jpg" alt="Jersey 10">
+        </div>
+        <div class="slider-group">
+          <img src="bannerImages/cas1.jpg" alt="Jersey 1">
+          <img src="bannerImages/cas2.jpg" alt="Jersey 2">
+          <img src="bannerImages/cas3.jpg" alt="Jersey 3">
+          <img src="bannerImages/cas4.jpg" alt="Jersey 4">
+          <img src="bannerImages/cas5.jpg" alt="Jersey 5">
+          <img src="bannerImages/cas6.jpg" alt="Jersey 6">
+          <img src="bannerImages/cas7.jpg" alt="Jersey 7">
+          <img src="bannerImages/cas8.jpg" alt="Jersey 8">
+          <img src="bannerImages/cas9.jpg" alt="Jersey 9">
+          <img src="bannerImages/cas10.jpg" alt="Jersey 10">
+        </div>
+      </div>
+    </div>
+        <div class="home-message-group">
+          <h2>STOCK DISPONIBLE EN TIENDA - LA POPULAR</h2>
+          <label2>Vía 4 1-17 Zona 4, 4 Grados Norte</label2>
+        </div>    
+  </div>     
+    
+  <div class="container">
+    <div class="filters-container">
+      <div class="filters-grid">
+        <div class="field-group">
+          <label>Buscar por Equipo ó Código</label>
+          <input type="text" id="searchInput" placeholder="Ej: Milan..." oninput="applyFilters()">
+        </div>
+        <div class="field-group">
+          <label>Talla</label>
+          <select id="sizeFilter" onchange="applyFilters()">
+            <option value="">Todas</option>
+            <option>XS</option><option>S</option><option>M</option><option>L</option>
+            <option>XL</option><option>XXL</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Tipo de Camisola</label>
+          <select id="typeFilter" onchange="applyFilters()">
+            <option value="">Todos</option>
+            <option>Casa</option><option>Visita</option><option>Entrenamiento</option>
+            <option>Firmada</option><option>Otros</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Ordenar por</label>
+          <select id="sortOrder" onchange="applyFilters()">
+            <option value="none">ID de producto</option>
+            <option value="p-low">Precio: Menor a Mayor</option>
+            <option value="p-high">Precio: Mayor a Menor</option>
+            <option value="az">A - Z</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Mostrar</label>
+          <select id="perPage" onchange="changePerPage()">
+            <option value="25">25 por página</option>
+            <option value="50">50 por página</option>
+            <option value="75">75 por página</option>
+            <option value="100">100 por página</option>
+          </select>
+        </div>
+      </div>
+    </div>
 
-  <main class="product-page-container" id="productPageContent">
-    <div class="loading">Cargando prenda...</div>
-  </main>
+    <div id="resultCount" style="margin-bottom:15px; color:#9eb1ca; font-size: 14px;">Cargando...</div>
+    
+    <div class="catalog-grid" id="catalogGrid">
+      <div class="loading">Cargando inventario...</div>
+    </div>
+    <div class="pagination-controls" id="paginationControls" style="display: none;">
+      <button class="secondary-btn" id="prevPageBtn" onclick="changePage(-1)">Anterior</button>
+      <span id="pageIndicator" style="color: #d9e5f5; font-weight: 600;">Página 1 de 1</span>
+      <button class="secondary-btn" id="nextPageBtn" onclick="changePage(1)">Siguiente</button>
+    </div>
+  </div>
+
+  <div class="modal" id="productModal" style="display:none; position:fixed; z-index:1001; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; padding:20px;">
+    <div class="modal-content" style="background:#081426; max-width:850px; width:100%; border-radius:22px; border:1px solid #1f3350; position:relative; display:flex; flex-direction:row; flex-wrap:wrap; overflow:hidden; max-height:90vh; overflow-y:auto;">
+      <span onclick="closeProductModal()" style="position:absolute; right:20px; top:15px; font-size:28px; color:#8aa4c7; cursor:pointer; z-index:10;">&times;</span>
+      
+      <div style="flex:1; min-width:300px; background:#0a1728; position:relative; display:flex; flex-direction:column;">
+        <img id="modalMainImage" src="" style="width:100%; height:400px; object-fit:contain; padding:20px;">
+        <div id="modalThumbnails" style="display:flex; overflow-x:auto; gap:10px; padding:15px; background:#07111f; min-height:90px;">
+           </div>
+      </div>
+      
+      <div style="flex:1; min-width:300px; padding:30px; display:flex; flex-direction:column;">
+        <h2 id="modalTitle" style="color:#2490ff; margin-bottom:10px; padding-right: 20px;"></h2>
+        <div id="modalPrice" class="price" style="font-size:26px; margin-bottom:20px;"></div>
+        <p style="color:#d9e5f5; margin-bottom:10px;"><strong>Talla:</strong> <span id="modalSize"></span></p>
+        <p style="color:#d9e5f5; margin-bottom:10px;"><strong>Tipo:</strong> <span id="modalType"></span></p>
+        <p style="color:#d9e5f5; margin-bottom:10px;"><strong>SKU:</strong> <span id="modalSku"></span></p>
+        
+        <div style="margin-top:20px; background:#0a1728; padding:15px; border-radius:12px; border: 1px solid #1b2f49;">
+            <p style="color:#d9e5f5; margin-bottom:5px;"><strong>Descripción / Notas:</strong></p>
+            <p style="color:#9eb1ca; font-size:14px; line-height: 1.5;" id="modalNotes"></p>
+        </div>
+        
+        <a id="modalWsBtn" href="#" class="ws-btn-full" target="_blank">Consultar WhatsApp</a>
+        <a id="modalFullPageBtn" href="#" class="secondary-btn full-page-btn">Ver pagina completa</a>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>
