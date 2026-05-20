@@ -14,6 +14,11 @@
 
 <body class="product-page">
   <nav class="navbar">
+    <button type="button" class="menu-toggle" onclick="openSideMenu()" aria-label="Abrir menu" aria-controls="sideMenu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <a href="index.html" class="nav-brand nav-home-link" aria-label="Volver al inventario">
       <img src="logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
       <div class="nav-text-container">
@@ -21,10 +26,37 @@
         <h6 class="nav-slogan">Llevando el futbol de Guate a todo el mundo</h6>
       </div>
     </a>
-    <a href="https://instagram.com" class="nav-social-link" target="_blank" rel="noopener" aria-label="Instagram">
+    <a href="https://www.instagram.com/centralamericashirts/" class="nav-social-link" target="_blank" rel="noopener" aria-label="Instagram">
       <img src="instagram_logo.svg" alt="Instagram" class="nav-social-icon" width="24" height="24">
     </a>
   </nav>
+
+  <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeSideMenu()"></div>
+  <aside class="side-menu" id="sideMenu" aria-hidden="true">
+    <div class="side-menu-header">
+      <span>Menu</span>
+      <button type="button" class="side-menu-close" onclick="closeSideMenu()" aria-label="Cerrar menu">&times;</button>
+    </div>
+    <nav class="side-menu-links">
+      <details class="side-menu-accordion">
+        <summary>Categorías</summary>
+        <div class="accordion-content">
+          <a href="index.html#catalogFilters">Todas las Prendas</a>
+          <a href="index.html#catalogFilters">Selecciones</a>
+          <a href="index.html#catalogFilters">Europa</a>
+          <a href="index.html#catalogFilters">Conmebol/Concacaf</a>
+          <a href="index.html#catalogFilters">Otros</a>
+        </div>
+      </details>
+      <a href="https://wa.me/50258656376" target="_blank" rel="noopener" class="menu-icon-link">
+        <img src="whatsapp_logo.png" alt="WhatsApp" class="menu-icon"> Contactar por Whatsapp
+      </a>
+      <a href="https://www.instagram.com/centralamericashirts/" target="_blank" rel="noopener" class="menu-icon-link">
+        <img src="instagram_logo.svg" alt="Instagram" class="menu-icon"> Ver Instagram
+      </a>
+      <a href="index.html#futureEvents">Futuros Eventos</a>
+    </nav>
+  </aside>
 
   <main class="product-page-container" id="productPageContent">
     <div class="loading">Cargando prenda...</div>
