@@ -16,6 +16,11 @@
 <body class="index-page">
 
   <nav class="navbar">
+    <button type="button" class="menu-toggle" onclick="openSideMenu()" aria-label="Abrir menu" aria-controls="sideMenu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
     <a href="index.html" class="nav-brand nav-home-link" aria-label="Volver al inventario">
       <img src="logo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
       <div class="nav-text-container">
@@ -23,10 +28,37 @@
         <h6 class="nav-slogan">Llevando el fútbol de Guate a todo el mundo 🇧🇷🇦🇷🇨🇴🇺🇲🇨🇱🇲🇽</h6>
       </div>
     </a>
-    <a href="https://instagram.com" class="nav-social-link" target="_blank" rel="noopener" aria-label="Instagram">
+    <a href="https://www.instagram.com/centralamericashirts/" class="nav-social-link" target="_blank" rel="noopener" aria-label="Instagram">
       <img src="instagram_logo.svg" alt="Instagram" class="nav-social-icon" width="24" height="24">
     </a>
   </nav>
+
+  <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeSideMenu()"></div>
+  <aside class="side-menu" id="sideMenu" aria-hidden="true">
+    <div class="side-menu-header">
+      <span>Menu</span>
+      <button type="button" class="side-menu-close" onclick="closeSideMenu()" aria-label="Cerrar menu">&times;</button>
+    </div>
+    <nav class="side-menu-links">
+      <details class="side-menu-accordion">
+        <summary>Categorías</summary>
+        <div class="accordion-content">
+          <a href="index.html#catalogFilters">Todas las Prendas</a>
+          <a href="index.html#catalogFilters">Selecciones</a>
+          <a href="index.html#catalogFilters">Europa</a>
+          <a href="index.html#catalogFilters">Conmebol/Concacaf</a>
+          <a href="index.html#catalogFilters">Otros</a>
+        </div>
+      </details>
+      <a href="https://wa.me/50258656376" target="_blank" rel="noopener" class="menu-icon-link">
+        <img src="whatsapp_logo.png" alt="WhatsApp" class="menu-icon"> Contactar por Whatsapp
+      </a>
+      <a href="https://www.instagram.com/centralamericashirts/" target="_blank" rel="noopener" class="menu-icon-link">
+        <img src="instagram_logo.svg" alt="Instagram" class="menu-icon"> Ver Instagram
+      </a>
+      <a href="index.html#futureEvents">Futuros Eventos</a>
+    </nav>
+  </aside>
 	
   <div class="container">
     <div class="slider-container">
@@ -42,6 +74,7 @@
           <img src="bannerImages/cas8.jpg" alt="Jersey 8">
           <img src="bannerImages/cas9.jpg" alt="Jersey 9">
           <img src="bannerImages/cas10.jpg" alt="Jersey 10">
+		  <img src="bannerImages/cas11.jpg" alt="Jersey 11">
         </div>
         <div class="slider-group">
           <img src="bannerImages/cas1.jpg" alt="Jersey 1">
@@ -53,7 +86,8 @@
           <img src="bannerImages/cas7.jpg" alt="Jersey 7">
           <img src="bannerImages/cas8.jpg" alt="Jersey 8">
           <img src="bannerImages/cas9.jpg" alt="Jersey 9">
-          <img src="bannerImages/cas10.jpg" alt="Jersey 10">
+		  <img src="bannerImages/cas11.jpg" alt="Jersey 11">
+		  <img src="bannerImages/cas12.jpg" alt="Jersey 12">
         </div>
       </div>
     </div>
@@ -64,7 +98,14 @@
   </div>     
     
   <div class="container">
-    <div class="filters-container">
+    <div class="categories-horizontal-bar">
+      <button class="cat-btn active">Todas las Prendas</button>
+      <button class="cat-btn">Selecciones</button>
+      <button class="cat-btn">Europa</button>
+      <button class="cat-btn">Conmebol/Concacaf</button>
+      <button class="cat-btn">Otros</button>
+    </div>
+    <div class="filters-container" id="catalogFilters">
       <div class="filters-grid">
         <div class="field-group">
           <label>Buscar por Equipo ó Código</label>
@@ -117,6 +158,7 @@
       <span id="pageIndicator" style="color: #d9e5f5; font-weight: 600;">Página 1 de 1</span>
       <button class="secondary-btn" id="nextPageBtn" onclick="changePage(1)">Siguiente</button>
     </div>
+    <div id="futureEvents" class="future-events-anchor"></div>
   </div>
 
   <div class="modal" id="productModal" style="display:none; position:fixed; z-index:1001; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; padding:20px;">
@@ -141,7 +183,9 @@
             <p style="color:#9eb1ca; font-size:14px; line-height: 1.5;" id="modalNotes"></p>
         </div>
         
-        <a id="modalWsBtn" href="#" class="ws-btn-full" target="_blank">Consultar WhatsApp</a>
+        <a id="modalWsBtn" href="#" class="ws-btn-image" target="_blank">
+          <img src="whatsapp_logo.png" alt="Consultar por WhatsApp">
+        </a>
         <a id="modalFullPageBtn" href="#" class="secondary-btn full-page-btn">Ver pagina completa</a>
       </div>
     </div>
