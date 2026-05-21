@@ -272,8 +272,7 @@ function render() {
     const wsUrl = `https://wa.me/${WS_NUMBER.replace('+', '')}?text=${encodeURIComponent(wsMessage)}`;
 
     return `
-      <div class="product-card" onclick="openProductModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="cursor:pointer; border: 1px solid #1f3350; border-radius: 12px; overflow: hidden; background: #0a1728; transition: transform 0.2s;">
-        <div class="product-image-wrapper" style="width: 100%; height: 280px; overflow: hidden; background: #07111f;">
+      <div class="product-card" onclick="window.location.href='product.html?sku=${item.sku}'" style="cursor:pointer; border: 1px solid #1f3350; border-radius: 12px; overflow: hidden; background: #0a1728; transition: transform 0.2s;">        <div class="product-image-wrapper" style="width: 100%; height: 280px; overflow: hidden; background: #07111f;">
           <img src="${images[0]}" alt="${item.equipo}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         <div class="product-info" style="padding: 15px;">
@@ -409,27 +408,29 @@ function closeProductModal() {
 async function loadProductPage() {
   const params = new URLSearchParams(window.location.search);
   const sku = params.get('sku');
+  
   if (!sku) {
-    showProductPageError("No se especificó ningún SKU.");
+    showProductPageError("No se especificó ningún SKU en la dirección web. Por favor, selecciona una prenda desde el catálogo.");
     return;
   }
 
   try {
     const response = await getJsonp({ action: 'getSku', sku: sku });
     
-    // Extract the item object
+    // Extract the item object securely
     if (!response || response.success === false || !response.item) {
-      showProductPageError("La camisola solicitada no existe o fue vendida.");
+      showProductPageError("La camisola solicitada no existe, fue eliminada o ya fue vendida.");
       return;
     }
     
     const itemData = response.item;
     const images = getProductImages(itemData);
     
-    $('productTitle').innerText = itemData.equipo;
-    $('productSize').innerText = itemData.talla;
-    $('productType').innerText = itemData.tipo;
-    $('productSku').innerText = itemData.sku;
+    // Using || '' ensures that if a field is blank, it doesn't print "undefined"
+    $('productTitle').innerText = itemData.equipo || 'Equipo Desconocido';
+    $('productSize').innerText = itemData.talla || 'N/A';
+    $('productType').innerText = itemData.tipo || 'N/A';
+    $('productSku').innerText = itemData.sku || sku;
     $('productNotes').innerText = itemData.notas || 'Sin descripción adicional.';
 
     // Logic for regular price vs sale price
@@ -439,11 +440,13 @@ async function loadProductPage() {
     if (hasSale) {
        $('productPrice').innerHTML = `<span style="text-decoration: line-through; color: #9eb1ca; font-size: 18px; margin-right: 10px;">Q${itemData.precio}</span>Q${oferta}`;
     } else {
-       $('productPrice').innerHTML = `Q${itemData.precio}`;
+       $('productPrice').innerHTML = `Q${itemData.precio || '0.00'}`;
     }
 
     const mainImg = $('mainProductImage');
-    if (mainImg) mainImg.src = images[0];
+    if (mainImg) {
+        mainImg.src = images.length > 0 ? images[0] : 'placeholder.png'; // Prevents broken image icon
+    }
 
     const thumbsContainer = $('productThumbnails');
     if (thumbsContainer) {
@@ -466,7 +469,7 @@ async function loadProductPage() {
       }
     }
 
-    const message = `¡Hola! Me interesa la camisola de ${itemData.equipo} (Talla: ${itemData.talla}, SKU: ${itemData.sku}) que vi en su catálogo web. ¿Está disponible?`;
+    const message = `¡Hola! Me interesa la camisola de ${itemData.equipo || ''} (Talla: ${itemData.talla || ''}, SKU: ${itemData.sku || sku}) que vi en su catálogo web. ¿Está disponible?`;
     const wsBtn = $('productWsLink');
     if (wsBtn) wsBtn.href = `https://wa.me/${WS_NUMBER.replace('+', '')}?text=${encodeURIComponent(message)}`;
 
@@ -474,7 +477,7 @@ async function loadProductPage() {
     $('productPageContent').style.display = 'grid';
 
   } catch (err) {
-    showProductPageError("Error de conexión al cargar la prenda.");
+    showProductPageError("Error de conexión al cargar los datos de la prenda.");
   }
 }
 
@@ -841,4 +844,21 @@ function resetManageExceptSku() {
   $("editUploadContainer").classList.remove("hidden");
   editImages = [];
   hideActions();
+}
+
+function showProductPageError(msg) {
+  const loader = document.getElementById('productPageLoader');
+  if (loader) loader.style.display = 'none';
+  
+  const content = document.getElementById('productPageContent');
+  if (content) {
+    content.style.display = 'block';
+    content.innerHTML = `
+      <div style="padding: 40px; text-align: center; color: #ff4d4d; background: #0a1728; border-radius: 12px; border: 1px solid #1f3350; grid-column: 1 / -1;">
+        <h2 style="margin-bottom: 15px;">Error al cargar la prenda</h2>
+        <p style="color: #d9e5f5; font-size: 16px; margin-bottom: 20px;">${msg}</p>
+        <a href="index.html" class="secondary-btn" style="text-decoration: none; display: inline-block;">Volver al catálogo</a>
+      </div>
+    `;
+  }
 }
