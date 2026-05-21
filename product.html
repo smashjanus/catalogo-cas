@@ -58,9 +58,54 @@
     </nav>
   </aside>
 
-  <main class="product-page-container" id="productPageContent">
-    <div class="loading">Cargando prenda...</div>
+<main class="container" style="padding: 40px 20px;">
+    <a href="index.html" class="secondary-btn" style="margin-bottom: 30px; display: inline-flex; text-decoration: none; max-width: max-content;">← Volver al catálogo</a>
+    
+    <div id="productPageLoader" class="loading" style="margin-top: 50px;">Cargando prenda...</div>
+    
+    <div id="productPageContent" style="display: none; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; align-items: start;">
+      
+      <div class="product-image-gallery">
+        <div style="background: #0a1728; border-radius: 12px; padding: 20px; border: 1px solid #1f3350; text-align: center; position: relative; overflow: hidden;">
+           <img id="mainProductImage" src="" alt="Prenda" style="width: 100%; height: auto; max-height: 500px; object-fit: contain; cursor: zoom-in; transition: transform 0.3s ease;" onclick="toggleZoom(this)">
+        </div>
+        <div id="productThumbnails" style="display: flex; gap: 10px; margin-top: 15px; overflow-x: auto; padding-bottom: 10px;"></div>
+      </div>
+      
+      <div class="product-details" style="background: #0a1728; padding: 30px; border-radius: 12px; border: 1px solid #1f3350;">
+        <h1 id="productTitle" style="color: #2490ff; margin-top: 0; margin-bottom: 15px; font-size: 28px;"></h1>
+        <div id="productPrice" style="font-size: 32px; font-weight: bold; color: #fff; margin-bottom: 25px;"></div>
+        
+        <p style="color:#d9e5f5; margin-bottom:12px; font-size: 16px;"><strong>SKU:</strong> <span id="productSku"></span></p>
+        <p style="color:#d9e5f5; margin-bottom:12px; font-size: 16px;"><strong>Talla:</strong> <span id="productSize"></span></p>
+        <p style="color:#d9e5f5; margin-bottom:20px; font-size: 16px;"><strong>Tipo:</strong> <span id="productType"></span></p>
+        
+        <div style="background:#07111f; padding:20px; border-radius:8px; border: 1px solid #1b2f49; margin-bottom: 30px;">
+            <p style="color:#d9e5f5; margin-bottom:8px; font-size: 15px;"><strong>Descripción / Notas:</strong></p>
+            <p style="color:#9eb1ca; font-size:14px; line-height: 1.6; margin: 0;" id="productNotes"></p>
+        </div>
+        
+        <a id="productWsLink" href="#" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; background: #25D366; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px; transition: background 0.2s; width: 100%; box-sizing: border-box;">
+          <img src="whatsapp_logo.png" alt="WhatsApp" style="width: 24px; height: 24px; margin-right: 10px; filter: brightness(0) invert(1);"> 
+          Consultar por WhatsApp
+        </a>
+      </div>
+      
+    </div>
   </main>
+
+  <script>
+    // Simple inline zoom logic
+    function toggleZoom(img) {
+      if (img.style.transform === "scale(1.8)") {
+        img.style.transform = "scale(1)";
+        img.style.cursor = "zoom-in";
+      } else {
+        img.style.transform = "scale(1.8)";
+        img.style.cursor = "zoom-out";
+      }
+    }
+  </script>
 
   <script src="app.js"></script>
 </body>
