@@ -590,14 +590,19 @@ async function submitAdd(e) {
   showLoader("Subiendo camisola al inventario de Sheets...");
 
   const formData = new FormData(e.target);
+  
+  // Note: We changed action to 'addItem' to match code.gs
+  // and added the missing year, precioOferta, and disponible fields.
   const payload = {
-    action: "addInventory",
-    sku: formData.get("sku"),
+    action: "addItem", 
     equipo: formData.get("equipo"),
+    year: formData.get("year"),
     precio: formData.get("precio"),
+    precioOferta: formData.get("precio_oferta"),
     talla: formData.get("talla"),
     tipo: formData.get("tipo"),
-    tipoRegion: formData.get("tipoRegion"),
+    disponible: formData.get("venta") !== null, // Checkbox returns null if unchecked
+    tipoRegion: formData.get("tipo_region"), // Matches the name in HTML
     notas: formData.get("notas"),
     images: addImages
   };
@@ -693,15 +698,20 @@ async function confirmUpdate() {
   showLoader("Guardando cambios y procesando imágenes en el Excel...");
 
   const form = $("editForm");
+  
+  // Changed action to 'updateItem' to match code.gs
+  // and added the missing year, precioOferta, and disponible fields.
   const payload = {
-    action: "editInventory",
-    sku: currentItem.sku, // SKU original identificador
-    newSku: form.sku.value,
+    action: "updateItem",
+    sku: currentItem.sku, // The original SKU is sent so code.gs can find the correct row
     equipo: form.equipo.value,
+    year: form.year.value,
     precio: form.precio.value,
+    precioOferta: form.precio_oferta.value,
     talla: form.talla.value,
     tipo: form.tipo.value,
-    tipoRegion: form.tipoRegion.value,
+    disponible: form.venta.checked, // Retrieves true/false from the checkbox
+    tipoRegion: form.tipo_region.value,
     notas: form.notas.value,
     images: editImages
   };
