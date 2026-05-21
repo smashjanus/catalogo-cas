@@ -415,19 +415,32 @@ async function loadProductPage() {
   }
 
   try {
-    const item = await getJsonp({ action: 'getSku', sku: sku });
-    if (!item || item.success === false) {
+    const response = await getJsonp({ action: 'getSku', sku: sku });
+    
+    // Extract the item object
+    if (!response || response.success === false || !response.item) {
       showProductPageError("La camisola solicitada no existe o fue vendida.");
       return;
     }
+    
+    const itemData = response.item;
+    const images = getProductImages(itemData);
+    
+    $('productTitle').innerText = itemData.equipo;
+    $('productSize').innerText = itemData.talla;
+    $('productType').innerText = itemData.tipo;
+    $('productSku').innerText = itemData.sku;
+    $('productNotes').innerText = itemData.notas || 'Sin descripción adicional.';
 
-    const images = getProductImages(item);
-    $('productTitle').innerText = item.equipo;
-    $('productPrice').innerText = `Q${item.precio}`;
-    $('productSize').innerText = item.talla;
-    $('productType').innerText = item.tipo;
-    $('productSku').innerText = item.sku;
-    $('productNotes').innerText = item.notas || 'Sin descripción adicional.';
+    // Logic for regular price vs sale price
+    const oferta = itemData.precioOferta || itemData.Precio_Oferta;
+    const hasSale = oferta !== undefined && oferta !== null && String(oferta).trim() !== "" && Number(oferta) !== 0;
+    
+    if (hasSale) {
+       $('productPrice').innerHTML = `<span style="text-decoration: line-through; color: #9eb1ca; font-size: 18px; margin-right: 10px;">Q${itemData.precio}</span>Q${oferta}`;
+    } else {
+       $('productPrice').innerHTML = `Q${itemData.precio}`;
+    }
 
     const mainImg = $('mainProductImage');
     if (mainImg) mainImg.src = images[0];
@@ -440,17 +453,20 @@ async function loadProductPage() {
           const thumb = document.createElement('img');
           thumb.src = src;
           thumb.className = "thumb-img" + (idx === 0 ? " active" : "");
+          thumb.style.cssText = "width:70px; height:70px; object-fit:contain; border:2px solid #1f3350; border-radius:8px; cursor:pointer; background:#07111f; flex-shrink:0;";
+          if (idx === 0) thumb.style.borderColor = "#2490ff";
+          
           thumb.onclick = () => {
             mainImg.src = src;
-            Array.from(thumbsContainer.children).forEach(t => t.classList.remove('active'));
-            thumb.classList.add('active');
+            Array.from(thumbsContainer.children).forEach(t => t.style.borderColor = "#1f3350");
+            thumb.style.borderColor = "#2490ff";
           };
           thumbsContainer.appendChild(thumb);
         });
       }
     }
 
-    const message = `¡Hola! Me interesa la camisola de ${item.equipo} (Talla: ${item.talla}, SKU: ${item.sku}) que vi en su catálogo web.`;
+    const message = `¡Hola! Me interesa la camisola de ${itemData.equipo} (Talla: ${itemData.talla}, SKU: ${itemData.sku}) que vi en su catálogo web. ¿Está disponible?`;
     const wsBtn = $('productWsLink');
     if (wsBtn) wsBtn.href = `https://wa.me/${WS_NUMBER.replace('+', '')}?text=${encodeURIComponent(message)}`;
 
@@ -648,36 +664,42 @@ async function lookupSku() {
 
   showLoader("Buscando código SKU...");
   try {
-    const item = await getJsonp({ action: 'getSku', sku: sku });
-    if (!item || item.success === false) {
+    const response = await getJsonp({ action: 'getSku', sku: sku });
+    
+    // We check if it exists and was successful
+    if (!response || response.success === false || !response.item) {
       $("manageStatus").innerText = "Código SKU no encontrado.";
       resetManageExceptSku();
     } else {
-      currentItem = item;
+      // We explicitly extract the 'item' object from the response
+      const itemData = response.item; 
+      currentItem = itemData;
+      
       $("manageStatus").innerText = "Prenda cargada con éxito.";
       
       let summaryHtml = `
         <div style="font-size:15px; border-left:4px solid #2490ff; padding-left:12px; margin-top:5px;">
-          <strong>${item.equipo}</strong> (Q${item.precio})<br>
-          Talla: ${item.talla} | Tipo: ${item.tipo} | Clasificación: ${item.tipoRegion || item.Tipo_Region || 'No asignada'}<br>
-          <span style="color:#9eb1ca; font-size:13px;">Estado en Base de Datos: <strong>${item.estado || 'Activo'}</strong></span>
+          <strong>${itemData.equipo}</strong> (Q${itemData.precio})<br>
+          Talla: ${itemData.talla} | Tipo: ${itemData.tipo} | Clasificación: ${itemData.tipoRegion || itemData.Tipo_Region || 'No asignada'}<br>
+          <span style="color:#9eb1ca; font-size:13px;">Estado en Base de Datos: <strong>${itemData.estado || 'Activo'}</strong></span>
         </div>
       `;
       $("skuSummary").innerHTML = summaryHtml;
       $("skuSummary").classList.remove("hidden");
 
-      // Rellenar los campos del formulario oculto por si se decide editar
       const form = $("editForm");
-      form.sku.value = item.sku;
-      form.equipo.value = item.equipo;
-      form.precio.value = item.precio;
-      form.talla.value = item.talla;
-      form.tipo.value = item.tipo;
-      form.tipoRegion.value = item.tipoRegion || item.tipo_region || item.Tipo_Region || item.TipoRegion || "";
-      form.notas.value = item.notas || "";
+      form.sku.value = itemData.sku;
+      form.equipo.value = itemData.equipo;
+      form.year.value = itemData.year || ""; // Added missing year mapping
+      form.precio.value = itemData.precio;
+      form.precio_oferta.value = itemData.precioOferta || itemData.Precio_Oferta || ""; // Added sale price
+      form.talla.value = itemData.talla;
+      form.tipo.value = itemData.tipo;
+      form.venta.checked = itemData.disponible === true || String(itemData.disponible).toUpperCase() === 'SÍ'; // Added availability check
+      form.tipo_region.value = itemData.tipoRegion || itemData.tipo_region || itemData.Tipo_Region || itemData.TipoRegion || "";
+      form.notas.value = itemData.notas || "";
 
-      // Convertir la galería de URLs actual en el formato del preview de imágenes
-      const currentGallery = getProductImages(item);
+      const currentGallery = getProductImages(itemData);
       editImages = currentGallery.map(url => ({ base64: url, name: "url-source" }));
       renderPreviews({ imagesArray: editImages, previewId: "editPreviewContainer", uploadId: "editUploadContainer" });
 
