@@ -184,33 +184,37 @@ function applyFilters(){
   const sort = $('sortOrder').value;
 
   filteredItems = allItems.filter(item => {
-    const matchesSearch = !search || 
-                         String(item.sku).toLowerCase().includes(search) || 
-                         String(item.equipo).toLowerCase().includes(search);
-    
+    // ... (filtros de search, size, type que ya tienes) ...
+    const matchesSearch = !search || String(item.sku).toLowerCase().includes(search) || String(item.equipo).toLowerCase().includes(search);
     const matchesSize = !size || String(item.talla) === size;
     const matchesType = !type || String(item.tipo) === type;
-    
     const isDisponible = item.disponible === true || String(item.disponible).toUpperCase() === 'SÍ';
     const matchesAvail = !onlyAvail || isDisponible;
-    const activeOnly = item.estado !== 'Eliminado';
 
-    // Filtro inteligente por Categorías / Columna I (Tipo_Region)
+    // --- NUEVA LÓGICA DE CATEGORÍAS ---
     let matchesCategory = true;
     if (currentCategory !== "Todas las Prendas") {
-      const itemRegion = cleanText(item.tipoRegion || item.tipo_region || item.Tipo_Region || item.TipoRegion);
-      const selectedCatClean = cleanText(currentCategory);
-
-      if (selectedCatClean === "selecciones") {
-        matchesCategory = (itemRegion === "seleccion" || itemRegion === "selecciones");
-      } else if (selectedCatClean === "equipos europeos" || selectedCatClean === "europa") {
-        matchesCategory = (itemRegion === "europa" || itemRegion === "equipos europeos");
+      
+      if (currentCategory === "Ofertas") {
+        // Filtra si existe un valor en precioOferta y no es vacío o cero
+        const oferta = item.precioOferta || item.Precio_Oferta;
+        matchesCategory = (oferta !== undefined && oferta !== null && oferta !== "" && oferta !== 0);
       } else {
-        matchesCategory = (itemRegion === selectedCatClean || itemRegion.includes(selectedCatClean));
+        // Lógica original para el resto de categorías (Selecciones, Europa, etc.)
+        const itemRegion = cleanText(item.tipoRegion || item.tipo_region || item.Tipo_Region || item.TipoRegion);
+        const selectedCatClean = cleanText(currentCategory);
+        
+        if (selectedCatClean === "selecciones") {
+          matchesCategory = (itemRegion === "seleccion" || itemRegion === "selecciones");
+        } else if (selectedCatClean === "equipos europeos" || selectedCatClean === "europa") {
+          matchesCategory = (itemRegion === "europa" || itemRegion === "equipos europeos");
+        } else {
+          matchesCategory = (itemRegion === selectedCatClean || itemRegion.includes(selectedCatClean));
+        }
       }
     }
 
-    return matchesSearch && matchesSize && matchesType && matchesAvail && activeOnly && matchesCategory;
+    return matchesSearch && matchesSize && matchesType && matchesAvail && matchesCategory;
   });
 
   if (sort === 'p-low') filteredItems.sort((a, b) => Number(a.precio) - Number(b.precio));
