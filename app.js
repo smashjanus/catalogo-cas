@@ -662,54 +662,80 @@ async function submitAdd(e) {
 }
 
 async function lookupSku() {
-  const sku = $("lookupSku").value.trim();
+  // Convert search to uppercase to match how SKUs are stored
+  const sku = $("lookupSku").value.trim().toUpperCase(); 
   if (!sku) return;
 
   showLoader("Buscando código SKU...");
   try {
     const response = await getJsonp({ action: 'getSku', sku: sku });
     
-    // We check if it exists and was successful
+    // Check if the item was found correctly
     if (!response || response.success === false || !response.item) {
-      $("manageStatus").innerText = "Código SKU no encontrado.";
+      $("manageStatus").innerText = "Código SKU no encontrado o hubo un error de conexión.";
       resetManageExceptSku();
     } else {
-      // We explicitly extract the 'item' object from the response
       const itemData = response.item; 
       currentItem = itemData;
       
       $("manageStatus").innerText = "Prenda cargada con éxito.";
       
+      // Get images for the visual summary
+      const images = getProductImages(itemData);
+      const mainImage = images.length > 0 ? images[0] : 'placeholder.png';
+      
+      // Create a visual card similar to the product popup
       let summaryHtml = `
-        <div style="font-size:15px; border-left:4px solid #2490ff; padding-left:12px; margin-top:5px;">
-          <strong>${itemData.equipo}</strong> (Q${itemData.precio})<br>
-          Talla: ${itemData.talla} | Tipo: ${itemData.tipo} | Clasificación: ${itemData.tipoRegion || itemData.Tipo_Region || 'No asignada'}<br>
-          <span style="color:#9eb1ca; font-size:13px;">Estado en Base de Datos: <strong>${itemData.estado || 'Activo'}</strong></span>
+        <div style="display:flex; flex-wrap:wrap; gap:20px; background:#0a1728; padding:20px; border-radius:12px; border:1px solid #1f3350; margin-top:15px; margin-bottom:20px;">
+          <div style="width: 140px; flex-shrink: 0; background: #07111f; padding: 10px; border-radius: 8px;">
+            <img src="${mainImage}" style="width:100%; height:auto; object-fit:contain; border-radius:4px;">
+          </div>
+          <div style="flex:1; min-width: 200px; display: flex; flex-direction: column; justify-content: center;">
+            <h3 style="color:#2490ff; margin:0 0 10px 0; font-size: 22px;">${itemData.equipo}</h3>
+            <div style="font-size: 20px; font-weight: bold; color: #fff; margin-bottom: 15px;">Q${itemData.precio}</div>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size:15px; color:#d9e5f5;">
+              <div><strong>SKU:</strong> ${itemData.sku}</div>
+              <div><strong>Talla:</strong> ${itemData.talla}</div>
+              <div><strong>Tipo:</strong> ${itemData.tipo}</div>
+              <div><strong>Disponibilidad:</strong> ${itemData.disponible ? 'SÍ' : 'NO'}</div>
+              <div style="grid-column: 1 / -1;">
+                <strong>Estado:</strong> 
+                <span style="color: ${itemData.estado === 'Activo' ? '#25D366' : '#ff4a4a'}; font-weight: bold;">
+                  ${itemData.estado || 'Activo'}
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       `;
+      
       $("skuSummary").innerHTML = summaryHtml;
       $("skuSummary").classList.remove("hidden");
 
+      // Fill the hidden edit form fields so "Actualizar" has the right data
       const form = $("editForm");
       form.sku.value = itemData.sku;
       form.equipo.value = itemData.equipo;
-      form.year.value = itemData.year || ""; // Added missing year mapping
+      form.year.value = itemData.year || ""; 
       form.precio.value = itemData.precio;
-      form.precio_oferta.value = itemData.precioOferta || itemData.Precio_Oferta || ""; // Added sale price
+      form.precio_oferta.value = itemData.precioOferta || itemData.Precio_Oferta || ""; 
       form.talla.value = itemData.talla;
       form.tipo.value = itemData.tipo;
-      form.venta.checked = itemData.disponible === true || String(itemData.disponible).toUpperCase() === 'SÍ'; // Added availability check
+      form.venta.checked = itemData.disponible === true || String(itemData.disponible).toUpperCase() === 'SÍ'; 
       form.tipo_region.value = itemData.tipoRegion || itemData.tipo_region || itemData.Tipo_Region || itemData.TipoRegion || "";
       form.notas.value = itemData.notas || "";
 
+      // Render image previews in the edit form
       const currentGallery = getProductImages(itemData);
       editImages = currentGallery.map(url => ({ base64: url, name: "url-source" }));
       renderPreviews({ imagesArray: editImages, previewId: "editPreviewContainer", uploadId: "editUploadContainer" });
 
+      // Show the action buttons (Actualizar, Marcar Vendida, Eliminar)
       showActions();
     }
   } catch (err) {
-    $("manageStatus").innerText = "Error de red al buscar.";
+    $("manageStatus").innerText = "Error de red al buscar el SKU.";
   }
   hideLoader();
 }
