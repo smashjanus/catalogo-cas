@@ -4,15 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inventario de Camisolas</title>
-
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="style.css"> 
 </head>
-
 <body class="admin-page">
   <div id="loaderOverlay" class="loader-overlay">
     <div class="spinner"></div>
@@ -35,11 +32,15 @@
             <div class="field-group"><label>Equipo / Selección</label><input type="text" name="equipo" placeholder="e.g., Argentina" required></div>
             <div class="two-cols">
               <div class="field-group"><label>Año</label><input type="text" name="year" placeholder="e.g., 2022-23" required></div>
-              <div class="field-group"><label>Precio (GTQ)</label><input type="number" name="precio" placeholder="e.g., 500" required></div>
+              <div class="field-group"><label>Talla</label><select name="talla" required><option value="">Seleccionar</option><option>XXS</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option></select></div>
             </div>
             <div class="two-cols">
-              <div class="field-group"><label>Talla</label><select name="talla" required><option value="">Seleccionar</option><option>XXS</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option></select></div>
+              <div class="field-group"><label>Precio (GTQ)</label><input type="number" name="precio" placeholder="e.g., 500" required></div>
+              <div class="field-group"><label>Precio Oferta (Opcional)</label><input type="number" name="precio_oferta" placeholder="e.g., 350"></div>
+            </div>
+            <div class="two-cols">
               <div class="field-group"><label>Tipo de Prenda</label><select name="tipo" required><option value="">Seleccionar</option><option>Casa</option><option>Visita</option><option>Usada en Juego</option><option>Firmada</option><option>Entrenamiento</option><option>Otro</option></select></div>
+              <div class="field-group"><label>Región / Categoría</label><select name="tipo_region" required><option value="">Seleccionar</option><option value="Seleccion">Selección</option><option value="Europa">Equipos Europeos</option><option value="Conmebol/Concacaf">Conmebol / Concacaf</option><option value="Otros">Otros</option></select></div>
             </div>
             <div class="checkbox-row"><input type="checkbox" id="addDisponible" name="venta" checked><label for="addDisponible">Disponible para venta</label></div>
           </div>
@@ -82,11 +83,15 @@
             <div class="field-group"><label>Equipo / Selección</label><input type="text" name="equipo"></div>
             <div class="two-cols">
               <div class="field-group"><label>Año</label><input type="text" name="year"></div>
-              <div class="field-group"><label>Precio (GTQ)</label><input type="number" name="precio"></div>
+              <div class="field-group"><label>Talla</label><select name="talla"><option value="">Seleccionar</option><option>XXS</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option></select></div>
             </div>
             <div class="two-cols">
-              <div class="field-group"><label>Talla</label><select name="talla"><option value="">Seleccionar</option><option>XXS</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option></select></div>
+              <div class="field-group"><label>Precio (GTQ)</label><input type="number" name="precio"></div>
+              <div class="field-group"><label>Precio Oferta</label><input type="number" name="precio_oferta"></div>
+            </div>
+            <div class="two-cols">
               <div class="field-group"><label>Tipo de Prenda</label><select name="tipo"><option value="">Seleccionar</option><option>Casa</option><option>Visita</option><option>Usada en Juego</option><option>Firmada</option><option>Entrenamiento</option><option>Otro</option></select></div>
+              <div class="field-group"><label>Región / Categoría</label><select name="tipo_region"><option value="">Seleccionar</option><option value="Seleccion">Selección</option><option value="Europa">Equipos Europeos</option><option value="Conmebol/Concacaf">Conmebol / Concacaf</option><option value="Otros">Otros</option></select></div>
             </div>
             <div class="checkbox-row"><input type="checkbox" id="editDisponible" name="venta"><label for="editDisponible">Disponible para venta</label></div>
           </div>
@@ -96,7 +101,7 @@
               <label class="upload-box">
                 <div id="editUploadContainer">
                   <div class="upload-text">Click para subir nuevas imágenes</div>
-                  <div class="upload-sub">Si subes nuevas imágenes, reemplazarán la galería actual.</div>
+                  <div class="upload-sub">Si subes nuevas, reemplazarán la galería actual.</div>
                   <img id="editImagePreview" class="preview-img" alt="Imagen actual">
                 </div>
                 <div id="editPreviewContainer" class="hidden" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
@@ -127,7 +132,6 @@
       </div>
     </div>
   </div>
-
 <script src="app.js"></script>
 </body>
 </html>
