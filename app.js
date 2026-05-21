@@ -176,42 +176,50 @@ function cleanText(str) {
   return String(str || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 }
 
-function applyFilters(){
+function applyFilters() {
   const search = $('searchInput').value.toLowerCase().trim();
   const size = $('sizeFilter').value;
   const type = $('typeFilter').value;
-  const onlyAvail = true; 
+  const onlyAvail = true;
   const sort = $('sortOrder').value;
 
   filteredItems = allItems.filter(item => {
-    // ... (filtros de search, size, type que ya tienes) ...
+    // Filtros básicos
     const matchesSearch = !search || String(item.sku).toLowerCase().includes(search) || String(item.equipo).toLowerCase().includes(search);
     const matchesSize = !size || String(item.talla) === size;
     const matchesType = !type || String(item.tipo) === type;
     const isDisponible = item.disponible === true || String(item.disponible).toUpperCase() === 'SÍ';
     const matchesAvail = !onlyAvail || isDisponible;
 
-    // --- NUEVA LÓGICA DE CATEGORÍAS ---
+    // Lógica de Categorías (Filtrado Inteligente)
     let matchesCategory = true;
     if (currentCategory !== "Todas las Prendas") {
       
-      if (currentCategory === "Ofertas") {
-        // Filtra si existe un valor en precioOferta y no es vacío o cero
+      // Limpiamos la categoría seleccionada (quitamos espacios y tildes para comparar)
+      const selectedCatClean = cleanText(currentCategory).replace(/\s+/g, '');
+
+      // Caso especial: Ofertas
+      if (selectedCatClean === "ofertas") {
         const oferta = item.precioOferta || item.Precio_Oferta;
         matchesCategory = (oferta !== undefined && oferta !== null && oferta !== "" && oferta !== 0);
-      } else {
-        // Lógica original para el resto de categorías (Selecciones, Europa, etc.)
-        const itemRegion = cleanText(item.tipoRegion || item.tipo_region || item.Tipo_Region || item.TipoRegion);
-        const selectedCatClean = cleanText(currentCategory);
-        
+      } 
+      else {
+        // Limpiamos el valor del item (quitamos espacios y tildes)
+        const itemRegionRaw = item.tipoRegion || item.tipo_region || item.Tipo_Region || item.TipoRegion || "";
+        const itemRegionClean = cleanText(itemRegionRaw).replace(/\s+/g, '');
+
         if (selectedCatClean === "selecciones") {
-          matchesCategory = (itemRegion === "seleccion" || itemRegion === "selecciones");
-        } else if (selectedCatClean === "equipos europeos" || selectedCatClean === "europa") {
-          matchesCategory = (itemRegion === "europa" || itemRegion === "equipos europeos");
-          else if (selectedCatClean === "conmebol / concacaf" || selectedCatClean === "conmebol/concacaf") {
-          matchesCategory = (itemRegion === "conmebol/concacaf" || itemRegion === "conmebol/concacaf");
-        } else {
-          matchesCategory = (itemRegion === selectedCatClean || itemRegion.includes(selectedCatClean));
+          matchesCategory = (itemRegionClean === "seleccion" || itemRegionClean === "selecciones");
+        } 
+        else if (selectedCatClean === "equiposeuropeos" || selectedCatClean === "europa") {
+          matchesCategory = (itemRegionClean === "europa" || itemRegionClean === "equiposeuropeos");
+        } 
+        // Aquí detectará "conmebol/concacaf" aunque el usuario elija "Conmebol / Concacaf"
+        else if (selectedCatClean === "conmebol/concacaf") {
+          matchesCategory = (itemRegionClean === "conmebol/concacaf");
+        } 
+        else {
+          matchesCategory = (itemRegionClean === selectedCatClean || itemRegionClean.includes(selectedCatClean));
         }
       }
     }
@@ -219,11 +227,12 @@ function applyFilters(){
     return matchesSearch && matchesSize && matchesType && matchesAvail && matchesCategory;
   });
 
+  // Ordenamiento
   if (sort === 'p-low') filteredItems.sort((a, b) => Number(a.precio) - Number(b.precio));
   if (sort === 'p-high') filteredItems.sort((a, b) => Number(b.precio) - Number(a.precio));
   if (sort === 'az') filteredItems.sort((a, b) => a.equipo.localeCompare(b.equipo));
 
-  currentPage = 1; 
+  currentPage = 1;
   render();
 }
 
