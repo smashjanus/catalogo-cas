@@ -208,6 +208,8 @@ function applyFilters(){
           matchesCategory = (itemRegion === "seleccion" || itemRegion === "selecciones");
         } else if (selectedCatClean === "equipos europeos" || selectedCatClean === "europa") {
           matchesCategory = (itemRegion === "europa" || itemRegion === "equipos europeos");
+          else if (selectedCatClean === "conmebol / concacaf" || selectedCatClean === "conmebol/concacaf") {
+          matchesCategory = (itemRegion === "conmebol/concacaf" || itemRegion === "conmebol/concacaf");
         } else {
           matchesCategory = (itemRegion === selectedCatClean || itemRegion.includes(selectedCatClean));
         }
