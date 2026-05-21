@@ -111,40 +111,38 @@
         </div>
 
         <div class="filters-container" id="catalogFilters">
-          <div class="filters-grid">
-            <div class="field-group">
-              <label>Buscar por Equipo ó Código</label>
-              <input type="text" id="searchInput" placeholder="Ej: Milan..." oninput="applyFilters()">
-            </div>
-            <div class="field-group">
-              <label>Talla</label>
-              <select id="sizeFilter" onchange="applyFilters()">
-                <option value="">Todas</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
-              </select>
-            </div>
-            <div class="field-group">
-              <label>Tipo de Camisola</label>
-              <select id="typeFilter" onchange="applyFilters()">
-                <option value="">Todos</option><option>Casa</option><option>Visita</option><option>Entrenamiento</option><option>Firmada</option><option>Otros</option>
-              </select>
-            </div>
-            <div class="field-group">
-              <label>Ordenar por</label>
-              <select id="sortOrder" onchange="applyFilters()">
-                <option value="none">ID de producto</option>
-                <option value="p-low">Precio: Menor a Mayor</option>
-                <option value="p-high">Precio: Mayor a Menor</option>
-                <option value="az">A - Z</option>
-              </select>
-            </div>
-            <div class="field-group">
-              <label>Mostrar</label>
-              <select id="perPage" onchange="changePerPage()">
-                <option value="25">25 por página</option><option value="50">50 por página</option><option value="75">75 por página</option><option value="100">100 por página</option>
-              </select>
-            </div>
-          </div>
+      <div class="filters-grid">
+        <div class="field-group">
+          <label>Buscar por Equipo ó Código</label>
+          <input type="text" id="searchInput" placeholder="Ej: Milan..." oninput="applyFilters()">
         </div>
+        <div class="field-group">
+          <label>Talla</label>
+          <select id="sizeFilter" onchange="applyFilters()">
+            <option value="">Todas</option>
+            <option>XS</option><option>S</option><option>M</option><option>L</option>
+            <option>XL</option><option>XXL</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Tipo de Camisola</label>
+          <select id="typeFilter" onchange="applyFilters()">
+            <option value="">Todos</option>
+            <option>Casa</option><option>Visita</option><option>Entrenamiento</option>
+            <option>Firmada</option><option>Otros</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Ordenar por</label>
+          <select id="sortOrder" onchange="applyFilters()">
+            <option value="none">ID de producto</option>
+            <option value="p-low">Precio: Menor a Mayor</option>
+            <option value="p-high">Precio: Mayor a Menor</option>
+            <option value="az">A - Z</option>
+          </select>
+        </div>
+        </div>
+    </div>
 
         <div id="resultCount" style="margin-bottom:15px; color:#9eb1ca; font-size: 14px;">Cargando...</div>
         
