@@ -222,17 +222,17 @@ function applyFilters(){
 }
 
 function render() {
-  const grid = $('catalogGrid');
+  const grid = document.getElementById('catalogGrid');
   if (!grid) return;
 
   if (filteredItems.length === 0) {
-    $('resultCount').innerText = '0 resultados';
+    document.getElementById('resultCount').innerText = '0 resultados';
     grid.innerHTML = '<div class="loading">No se encontraron resultados en esta categoría.</div>';
-    $('paginationControls').style.display = 'none';
+    document.getElementById('paginationControls').style.display = 'none';
     return;
   }
 
-  $('resultCount').innerText = `${filteredItems.length} prendas encontradas`;
+  document.getElementById('resultCount').innerText = `${filteredItems.length} prendas encontradas`;
 
   const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
   if (currentPage > totalPages) currentPage = totalPages;
@@ -241,30 +241,31 @@ function render() {
   const end = start + itemsPerPage;
   const pageItems = filteredItems.slice(start, end);
 
+  // Mantenemos la estructura pero añadimos estilos de seguridad para evitar que la imagen sea gigante
   grid.innerHTML = pageItems.map(item => {
     const images = getProductImages(item);
     return `
-      <div class="product-card" onclick="openProductModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
-        <div class="product-image-wrapper">
-          <img src="${images[0]}" alt="${item.equipo}" loading="lazy">
+      <div class="product-card" onclick="openProductModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="cursor:pointer; border: 1px solid #1f3350; border-radius: 12px; overflow: hidden; background: #0a1728; transition: transform 0.2s;">
+        <div class="product-image-wrapper" style="width: 100%; height: 280px; overflow: hidden; background: #07111f;">
+          <img src="${images[0]}" alt="${item.equipo}" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
-        <div class="product-info">
-          <div class="product-sku">${item.sku}</div>
-          <h3 class="product-title">${item.equipo}</h3>
-          <div class="product-meta">Talla: ${item.talla} | ${item.tipo}</div>
-          <div class="product-price">Q${item.precio}</div>
+        <div class="product-info" style="padding: 15px;">
+          <div class="product-sku" style="color: #9eb1ca; font-size: 12px; margin-bottom: 5px;">${item.sku}</div>
+          <h3 class="product-title" style="color: #fff; margin-bottom: 5px; font-size: 16px;">${item.equipo}</h3>
+          <div class="product-meta" style="color: #d9e5f5; font-size: 13px; margin-bottom: 10px;">Talla: ${item.talla} | ${item.tipo}</div>
+          <div class="product-price" style="color: #2490ff; font-size: 18px; font-weight: bold;">Q${item.precio}</div>
         </div>
       </div>
     `;
   }).join('');
 
   if (totalPages > 1) {
-    $('paginationControls').style.display = 'flex';
-    $('pageIndicator').innerText = `Página ${currentPage} de ${totalPages}`;
-    $('prevPageBtn').disabled = (currentPage === 1);
-    $('nextPageBtn').disabled = (currentPage === totalPages);
+    document.getElementById('paginationControls').style.display = 'flex';
+    document.getElementById('pageIndicator').innerText = `Página ${currentPage} de ${totalPages}`;
+    document.getElementById('prevPageBtn').disabled = (currentPage === 1);
+    document.getElementById('nextPageBtn').disabled = (currentPage === totalPages);
   } else {
-    $('paginationControls').style.display = 'none';
+    document.getElementById('paginationControls').style.display = 'none';
   }
 }
 
