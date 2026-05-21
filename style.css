@@ -433,3 +433,13 @@ textarea { resize: vertical; min-height: 120px; }
 .ws-btn-image:hover img {
   transform: scale(1.05); /* Pequeño efecto de zoom al pasar el mouse */
 }
+/* --- CONTENEDOR FIJO (STICKY) AL HACER SCROLL --- */
+.sticky-header {
+  position: -webkit-sticky; /* Para compatibilidad con Safari */
+  position: sticky;
+  top: 0; /* Se pega al borde superior */
+  z-index: 99; /* Asegura que esté por encima de los productos */
+  background-color: #050d18; /* Fondo oscuro para tapar lo que pasa por debajo */
+  padding-top: 15px; /* Da un poco de respiro arriba */
+  margin-bottom: 10px;
+}
