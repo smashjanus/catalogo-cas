@@ -1,445 +1,123 @@
-/* =========================================
-   FUENTES Y RESET GENERAL
-========================================= */
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
-  font-family: 'Comfortaa', sans-serif; /* Unificado para todo el sitio */
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Comfortaa', sans-serif; }
+body { background: #07111f; color: #fff; }
+body.index-page, body.product-page { padding-top: 90px; padding-bottom: 40px; }
+body.admin-page { padding: 40px; }
 
-body { 
-  background: #07111f; 
-  color: #fff; 
-}
-
-/* Configuraciones de espacio exclusivas por pantalla */
-body.index-page { 
-  padding-top: 90px; 
-  padding-bottom: 40px; 
-}
-
-body.admin-page { 
-  padding: 40px; 
-}
-
-body.product-page {
-  padding-top: 90px;
-  padding-bottom: 40px;
-}
-
-/* =========================================
-   NAVEGACIÓN (INDEX)
-========================================= */
+/* NAVEGACIÓN */
 .navbar { position: fixed; top: 0; left: 0; width: 100%; height: 70px; background: #0b1729; border-bottom: 1px solid #1d314d; display: flex; align-items: center; padding: 0 30px; z-index: 1000; justify-content: space-between; }
 .menu-toggle { width: 44px; height: 44px; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; flex: 0 0 44px; }
 .menu-toggle span { width: 20px; height: 2px; border-radius: 999px; background: #d9e5f5; display: block; }
-.menu-toggle:hover { background: #142238; }
 .nav-brand { display: flex; align-items: center; gap: 15px; }
 .nav-home-link { color: inherit; text-decoration: none; min-width: 0; }
 .nav-text-container { display: flex; align-items: baseline; gap: 20px; }
 .nav-logo { height: 45px; width: 45px; object-fit: contain; }
 .nav-title { font-size: 20px; font-weight: 700; color: #2490ff; white-space: nowrap; }
 .nav-slogan { margin: 0; color: white; font-weight: normal; }
-.nav-social-link { width: 44px; height: 44px; max-width: 44px; max-height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; flex: 0 0 44px; overflow: hidden; padding: 0; line-height: 0; }
-.nav-social-link:hover { background: #142238; }
-.nav-social-icon, .nav-social-link img { width: 24px !important; height: 24px !important; max-width: 24px !important; max-height: 24px !important; min-width: 24px; min-height: 24px; object-fit: contain; display: block; flex: 0 0 24px; }
+.nav-social-link { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 12px; background: #07111f; border: 1px solid #1d314d; flex: 0 0 44px; overflow: hidden; }
+.nav-social-icon { width: 24px !important; height: 24px !important; object-fit: contain; }
 
+/* MENÚ LATERAL */
 .side-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.62); z-index: 1090; opacity: 0; pointer-events: none; transition: opacity .2s ease; }
 .side-menu { position: fixed; top: 0; left: 0; height: 100vh; width: min(330px, 86vw); background: #081426; border-right: 1px solid #1f3350; z-index: 1100; transform: translateX(-100%); transition: transform .24s ease; box-shadow: 16px 0 40px rgba(0,0,0,.45); padding: 22px; display: flex; flex-direction: column; }
 .side-menu.open { transform: translateX(0); }
 .side-menu-overlay.open { opacity: 1; pointer-events: auto; }
-.side-menu-header { display: flex; align-items: center; justify-content: space-between; color: #d9e5f5; font-size: 20px; font-weight: 700; padding-bottom: 18px; border-bottom: 1px solid #1a2d46; }
-.side-menu-close { width: 40px; height: 40px; border-radius: 10px; background: #142238; color: #d9e5f5; font-size: 28px; line-height: 1; }
+.side-menu-header { display: flex; align-items: center; justify-content: space-between; font-size: 20px; font-weight: 700; padding-bottom: 18px; border-bottom: 1px solid #1a2d46; }
+.side-menu-close { width: 40px; height: 40px; border-radius: 10px; background: #142238; color: #d9e5f5; font-size: 28px; line-height: 1; border:none; cursor:pointer;}
 .side-menu-links { display: grid; gap: 10px; padding-top: 18px; }
 .side-menu-links a { color: #d9e5f5; text-decoration: none; background: #0a1728; border: 1px solid #1b2f49; border-radius: 12px; padding: 15px 16px; font-weight: 700; line-height: 1.25; }
 .side-menu-links a:hover { border-color: #2490ff; background: #10233c; }
-.future-events-anchor { height: 1px; }
 
-/* =========================================
-   BOTONES UNIFICADOS
-========================================= */
+/* ACORDEÓN MENÚ */
+.side-menu-accordion { width: 100%; }
+.side-menu-accordion summary { cursor: pointer; padding: 15px 25px; color: #d9e5f5; font-size: 16px; font-weight: 600; border-bottom: 1px solid #1f3350; list-style: none; }
+.side-menu-accordion summary::-webkit-details-marker { display: none; }
+.accordion-content { background: #050d18; display: flex; flex-direction: column; }
+.accordion-content a { padding: 12px 25px 12px 45px !important; font-size: 14px !important; color: #9eb1ca !important; border-bottom: 1px solid #0a1728 !important; }
+.menu-icon-link { display: flex !important; align-items: center; gap: 12px; }
+.menu-icon { width: 24px; height: 24px; object-fit: contain; }
+
+/* BOTONES */
 button { border: none; cursor: pointer; transition: .2s ease; }
 button:disabled { opacity: .55; cursor: not-allowed; }
+.primary-btn, .add-btn { background: #2490ff; color: white; padding: 14px 22px; border-radius: 12px; font-weight: 700; }
+.secondary-btn { background: #142238; color: white; padding: 14px 22px; border-radius: 12px; font-weight: 600; border: 1px solid #23344f; }
+.danger-btn { background: #d64545; color: white; padding: 14px 24px; border-radius: 14px; font-weight: 700; }
+.warning-btn { background: #f1a733; color: #081426; padding: 14px 24px; border-radius: 14px; font-weight: 700; }
+.cancel-btn { background: transparent; color: #d2dbea; padding: 14px 20px; font-weight: 600; }
+.ws-icon-btn { background: #25d366; color: white; display: flex; align-items: center; justify-content: center; width: 45px; border-radius: 12px; }
+.ws-btn-image img { width: 100%; max-width: 220px; transition: transform 0.2s ease; }
 
-.primary-btn, .add-btn { background: #2490ff; color: white; padding: 14px 22px; border-radius: 12px; font-size: 15px; font-weight: 700; }
-.primary-btn:hover, .add-btn:hover { background: #46a3ff; }
-
-.secondary-btn { background: #142238; color: white; padding: 14px 22px; border-radius: 12px; font-size: 15px; font-weight: 600; border: 1px solid #23344f; }
-.secondary-btn:hover { background: #1c2f4d; }
-
-.danger-btn { background: #d64545; color: white; padding: 14px 24px; border-radius: 14px; font-size: 15px; font-weight: 700; }
-.danger-btn:hover { background: #ef5a5a; }
-
-.warning-btn { background: #f1a733; color: #081426; padding: 14px 24px; border-radius: 14px; font-size: 15px; font-weight: 700; }
-.cancel-btn { background: transparent; color: #d2dbea; padding: 14px 20px; font-size: 15px; font-weight: 600; }
-
-.view-btn { background: #f1a733; color: #081426; flex-grow: 1; text-align: center; padding: 12px; border-radius: 12px; font-weight: 700; cursor: pointer; border: none; font-size: 14px; transition: 0.2s; }
-.view-btn:hover { background: #ffbd4f; }
-
-.ws-icon-btn { background: #25d366; color: white; display: flex; align-items: center; justify-content: center; width: 45px; border-radius: 12px; text-decoration: none; transition: 0.2s; }
-.ws-icon-btn:hover { background: #20b858; }
-
-.ws-btn-full, .ws-btn { background: #25d366; color: white; text-decoration: none; display: block; text-align: center; padding: 12px; border-radius: 12px; font-weight: 700; margin-top: 30px; }
-.full-page-btn, .share-url-btn { display: block; text-align: center; text-decoration: none; margin-top: 12px; width: 100%; }
-
-/* =========================================
-   FORMULARIOS Y ELEMENTOS DE ENTRADA
-========================================= */
+/* CONTENEDOR Y FILTROS */
 .container { padding: 0 20px; max-width: 1200px; margin: 0 auto; }
 .filters-container { background: #0b1729; border: 1px solid #1d314d; border-radius: 22px; padding: 24px; margin-bottom: 24px; }
 .filters-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 18px; align-items: end; }
-.home-message-group { display: justify; gap: 8px; text-align: center; padding: 10px; }
-
-.field-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-.index-page .field-group { margin-bottom: 0; }
-
+.field-group { display: flex; flex-direction: column; gap: 8px; }
 label { font-size: 14px; color: #d9e5f5; font-weight: 600; }
-h2 { font-size: 24px; color: #d9e5f5; font-weight: 600; }
-label2 { font-size: 24px; color: #2490ff; font-weight: 600; }
+input, select, textarea { background: #07101d; border: 1px solid #203552; color: white; padding: 14px 16px; border-radius: 14px; outline: none; width: 100%; }
+.sticky-header { position: sticky; top: 90px; z-index: 99; background: #050d18; padding-top: 15px; margin-bottom: 10px; }
+.home-message-group { text-align: center; padding: 10px; }
+.home-message-group h2 { font-size: 24px; color: #d9e5f5; }
+.home-message-group label2 { font-size: 24px; color: #2490ff; font-weight: 600; }
 
-input, select, textarea { background: #07101d; border: 1px solid #203552; color: white; padding: 14px 16px; border-radius: 14px; outline: none; font-size: 15px; width: 100%; }
-.index-page input, .index-page select { padding: 12px; font-size: 14px; border-radius: 12px; }
+/* CINTILLO MARQUEE */
+.slider-container { width: 100%; overflow: hidden; padding: 10px 0 25px 0; }
+.slider-track { display: flex; width: max-content; animation: scroll 40s linear infinite; }
+.slider-track:hover { animation-play-state: paused; }
+.slider-group { display: flex; gap: 20px; padding-right: 20px; }
+.slider-group img { width: 180px; height: 140px; object-fit: cover; border-radius: 12px; border: 1px solid #1b2f49; }
+@keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-input[readonly], textarea[readonly], select:disabled { opacity: .75; background: #0a1728; }
-input::placeholder, textarea::placeholder { color: #72839d; }
-textarea { resize: vertical; min-height: 120px; }
+/* TARJETAS DE CATEGORÍA */
+.category-cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px; }
+.cat-card { position: relative; height: 160px; border-radius: 18px; overflow: hidden; cursor: pointer; background-size: cover; background-position: center; border: 1px solid #1b2f49; transition: transform 0.2s ease; }
+.cat-card:hover { transform: translateY(-5px); border-color: #2490ff; }
+.cat-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.1) 100%); }
+.cat-card h3 { position: absolute; bottom: 20px; left: 20px; color: #fff; font-size: 22px; font-weight: 700; z-index: 2; margin: 0; }
+.active-category-header { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
 
-.checkbox-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; white-space: nowrap; }
-.checkbox-row input { width: 18px; height: 18px; cursor: pointer; }
-
-/* =========================================
-   MODALES (VENTANAS EMERGENTES)
-========================================= */
-.modal { display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow: auto; }
-.modal-content { background: #081426; width: 100%; max-width: 950px; border-radius: 22px; border: 1px solid #1f3350; padding: 28px; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,.45); max-height: 95vh; overflow: auto; }
-.small-modal { max-width: 520px; text-align: center; }
-.close { position: absolute; right: 25px; top: 20px; color: #8aa4c7; font-size: 28px; cursor: pointer; z-index: 10; }
-.modal-title { font-size: 34px; font-weight: 700; margin-bottom: 22px; }
-.modal-footer { display: flex; justify-content: flex-end; gap: 14px; margin-top: 26px; padding-top: 22px; border-top: 1px solid #1a2d46; flex-wrap: wrap; }
-
-/* =========================================
-   GRILLAS Y TARJETAS (INDEX)
-========================================= */
+/* GRILLA INVENTARIO */
 .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; }
 .card { background: #081426; border: 1px solid #1b2f49; border-radius: 24px; overflow: hidden; position: relative; display: flex; flex-direction: column; transition: .2s; }
 .card:hover { transform: translateY(-5px); }
 .card-image-container { position: relative; width: 100%; height: 300px; background: #0a1728; }
 .card-image { width: 100%; height: 100%; object-fit: cover; }
 .card-body { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; }
-.card-actions { display: flex; gap: 10px; margin-top: auto; }
-
 .badge { position: absolute; top: 14px; padding: 8px 14px; border-radius: 10px; font-size: 11px; font-weight: 700; }
-.badge-available { left: 14px; background: #2a9fff; color: #041426; }
-.badge-sold { left: 14px; background: #cfd5dd; color: #1f2c3e; }
 .badge-type { right: 14px; background: rgba(35, 47, 67, 0.85); color: white; }
-.price { color: #1ea0ff; font-size: 20px; font-weight: 700; margin: 10px 0; }
+.price { font-size: 20px; font-weight: 700; margin: 10px 0; color: #d9e5f5; }
 
-/* =========================================
-   PAGINA DE PRODUCTO
-========================================= */
-.product-page-container { width: min(1200px, calc(100% - 40px)); margin: 0 auto; }
-.product-detail-layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(330px, .75fr); gap: 28px; align-items: start; }
-.product-gallery { min-width: 0; }
-.product-main-image-wrap { background: #081426; border: 1px solid #1b2f49; border-radius: 18px; height: min(72vh, 720px); min-height: 460px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-.product-main-image-wrap.is-zoomed { cursor: zoom-in; }
-.product-main-image { max-width: 100%; max-height: 100%; object-fit: contain; transform-origin: center center; transition: transform .18s ease; }
-.product-zoom-controls { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 16px 0; }
-.product-zoom-controls .secondary-btn { padding: 11px 16px; }
-#zoomLabel { color: #d9e5f5; font-weight: 700; min-width: 58px; text-align: center; }
-.product-thumbnails { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 12px; }
-.product-thumb { border: 1px solid #1b2f49; background: #081426; border-radius: 12px; padding: 5px; height: 102px; }
-.product-thumb.active { border-color: #2490ff; box-shadow: 0 0 0 2px rgba(36,144,255,.25); }
-.product-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; display: block; }
-.product-info-panel { background: #081426; border: 1px solid #1b2f49; border-radius: 18px; padding: 26px; position: sticky; top: 92px; }
-.product-back-link { color: #8fb9ee; text-decoration: none; font-weight: 700; display: inline-block; margin-bottom: 20px; }
-.product-type { color: #2490ff; font-size: 12px; font-weight: 700; letter-spacing: 0; margin-bottom: 10px; }
-.product-info-panel h1 { color: #d9e5f5; font-size: 34px; line-height: 1.12; margin-bottom: 12px; }
-.product-page-price { color: #1ea0ff; font-size: 30px; font-weight: 700; margin-bottom: 22px; }
-.product-facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 24px; }
-.product-facts div { background: #0a1728; border: 1px solid #1b2f49; border-radius: 12px; padding: 13px; min-width: 0; }
-.product-facts span { display: block; color: #8aa4c7; font-size: 12px; margin-bottom: 7px; }
-.product-facts strong { display: block; color: #d9e5f5; font-size: 14px; overflow-wrap: anywhere; }
-.product-notes { border-top: 1px solid #1b2f49; padding-top: 22px; }
-.product-notes h2 { font-size: 18px; margin-bottom: 10px; }
-.product-notes p { color: #9eb1ca; line-height: 1.6; font-size: 15px; }
-.product-share-input { margin-top: 12px; font-size: 13px; color: #9eb1ca; background: #07101d; }
-.copy-status { color: #8fb9ee; min-height: 22px; margin-top: 12px; font-size: 13px; text-align: center; }
-
-/* =========================================
-   ÁREA DE CARGA DE IMÁGENES (ADMIN)
-========================================= */
+/* MODAL Y ADMIN */
+.modal { display: none; position: fixed; z-index: 1001; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; overflow: auto; }
+.modal-content { background: #081426; width: 100%; max-width: 950px; border-radius: 22px; border: 1px solid #1f3350; padding: 28px; position: relative; max-height: 95vh; overflow: auto; }
+.close { position: absolute; right: 25px; top: 20px; color: #8aa4c7; font-size: 28px; cursor: pointer; z-index: 10; }
 .upload-box { border: 2px dashed #274160; border-radius: 18px; min-height: 230px; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; padding: 20px; background: #0a1728; cursor: pointer; transition: .2s; overflow: hidden; }
-.upload-box:hover { border-color: #3d8cff; }
-.upload-icon { font-size: 42px; margin-bottom: 15px; }
-.upload-text { color: #dce7f7; font-weight: 600; margin-bottom: 6px; }
-.upload-sub { color: #7084a1; font-size: 13px; }
-.preview-img { width: 100%; max-height: 230px; object-fit: cover; border-radius: 14px; margin-top: 10px; background: #07101d; }
-
-/* =========================================
-   ELEMENTOS DE AYUDA Y CARGA
-========================================= */
-.loading { text-align: center; padding: 40px; color: #9eb1ca; grid-column: 1/-1; }
-.loader-overlay { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); flex-direction: column; justify-content: center; align-items: center; color: white; }
-.spinner { width: 60px; height: 60px; border: 6px solid #1f3350; border-top-color: #2490ff; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.helper-text { color: #8aa4c7; line-height: 1.5; margin-bottom: 22px; }
-.status-text { color: #9eb1ca; margin: 12px 0; line-height: 1.5; }
+.preview-img { width: 100%; max-height: 230px; object-fit: cover; border-radius: 14px; margin-top: 10px; }
 .hidden { display: none !important; }
-
-/* Layouts utilitarios (Admin) */
+.loader-overlay { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); flex-direction: column; justify-content: center; align-items: center; color: white; }
+.spinner { width: 60px; height: 60px; border: 6px solid #1f3350; border-top-color: #2490ff; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
 .top-buttons { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.sku-summary { background: #0a1728; border: 1px solid #1c314d; border-radius: 18px; padding: 18px; margin: 18px 0; display: grid; grid-template-columns: 160px 1fr; gap: 18px; align-items: start; }
-.sku-summary img { width: 160px; height: 160px; object-fit: cover; border-radius: 14px; background: #07101d; }
-.sku-summary p { margin: 0 0 8px; color: #dce7f7; }
 
-/* =========================================
-   RESPONSIVE (MÓVILES Y ADAPTACIÓN)
-========================================= */
+/* RESPONSIVE */
 @media (max-width: 850px) {
-  body.admin-page { padding: 24px; }
-  .form-grid, .two-cols, .sku-summary { grid-template-columns: 1fr; }
-  .modal-title { font-size: 28px; }
-  .sku-summary img { width: 100%; height: 240px; }
-  .product-detail-layout { grid-template-columns: 1fr; }
-  .product-info-panel { position: static; }
-  .product-main-image-wrap { min-height: 360px; height: 58vh; }
-  .product-facts { grid-template-columns: 1fr; }
-  .product-info-panel h1 { font-size: 28px; }
-  .nav-slogan { display: none; }
-  
+  .form-grid, .two-cols { grid-template-columns: 1fr; }
   .filters-grid { grid-template-columns: 1fr 1fr; }
-  .filters-grid .field-group:first-child { grid-column: span 2; }
   .catalog-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } 
   .card-image-container { height: 200px; } 
-  .nav-title { font-size: 16px; }
+  .slider-group img { width: 120px; height: 90px; }
+  .nav-slogan { display: none; }
+  .category-cards-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (max-width: 768px) {
   body.index-page, body.product-page { padding-top: 82px; }
   .navbar { height: 64px; padding: 8px 14px; gap: 10px; }
-  .menu-toggle { width: 40px; height: 40px; border-radius: 10px; flex-basis: 40px; }
-  .menu-toggle span { width: 18px; }
-  .nav-brand { gap: 10px; flex: 1 1 auto; min-width: 0; }
-  .nav-logo { width: 40px; height: 40px; flex: 0 0 auto; }
+  .menu-toggle { width: 40px; height: 40px; }
   .nav-text-container { flex-direction: column; gap: 2px; align-items: flex-start; }
   .nav-title { font-size: 15px; white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
-  .nav-slogan { display: none; }
-  .nav-social-link { width: 40px; height: 40px; max-width: 40px; max-height: 40px; flex-basis: 40px; border-radius: 10px; }
-  .nav-social-icon, .nav-social-link img { width: 23px !important; height: 23px !important; max-width: 23px !important; max-height: 23px !important; min-width: 23px; min-height: 23px; flex-basis: 23px; }
-  .product-page-container { width: min(100% - 24px, 1200px); }
-  .product-main-image-wrap { min-height: 330px; height: 52vh; border-radius: 14px; }
-  .product-zoom-controls { gap: 10px; }
-  .product-zoom-controls .secondary-btn { padding: 10px 12px; font-size: 13px; }
-  .product-info-panel { padding: 20px; border-radius: 14px; }
-  .product-thumbnails { grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 10px; }
-  .product-thumb { height: 84px; }
-}
-
-/* =========================================
-   CONTROL DE TEXTO "VER PRODUCTO" / "VER"
-========================================= */
-/* Por defecto (Computador): Mostramos el largo, ocultamos el corto */
-.view-btn .txt-desktop { 
-  display: inline !important; 
-}
-.view-btn .txt-mobile { 
-  display: none !important; 
-}
-
-/* En pantallas móviles (Menores a 850px) */
-@media (max-width: 850px) {
-  .view-btn .txt-desktop { 
-    display: none !important; /* Oculta "Ver Producto" */
-  }
-  .view-btn .txt-mobile { 
-    display: inline !important; /* Muestra "Ver" */
-  }
-}
-/* =========================================
-   CINTILLO INFINITO (MARQUEE)
-========================================= */
-.slider-container {
-  width: 100%;
-  overflow: hidden;
-  background: transparent;
-  padding: 10px 0 25px 0;
-}
-
-.slider-track {
-  display: flex;
-  width: max-content;
-  /* Puedes cambiar '40s' por un número menor si lo quieres más rápido */
-  animation: scroll 40s linear infinite; 
-}
-
-.slider-track:hover {
-  animation-play-state: paused; /* Opcional: pausa la animación al pasar el mouse */
-}
-
-.slider-group {
-  display: flex;
-  gap: 20px;
-  padding-right: 20px; /* Separación antes del segundo grupo */
-}
-
-.slider-group img {
-  width: 180px;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 12px;
-  border: 1px solid #1b2f49;
-}
-
-@keyframes scroll {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-/* =========================================
-   PAGINACIÓN
-========================================= */
-.pagination-controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  margin-top: 40px;
-  padding-bottom: 20px;
-}
-
-/* Responsive para Cintillo */
-@media (max-width: 850px) {
-  .slider-group img {
-    width: 120px;
-    height: 90px;
-  }
-}
-
-/* --- BARRA HORIZONTAL DE CATEGORÍAS --- */
-.categories-horizontal-bar {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto; /* Permite scroll horizontal si no caben */
-  margin-bottom: 20px;
-  padding-bottom: 8px;
-  align-items: center;
-}
-
-.categories-horizontal-bar::-webkit-scrollbar {
-  height: 6px;
-}
-.categories-horizontal-bar::-webkit-scrollbar-thumb {
-  background: #1f3350;
-  border-radius: 4px;
-}
-
-.cat-btn {
-  background: #081426;
-  color: #9eb1ca;
-  border: 1px solid #1f3350;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.3s ease;
-}
-
-.cat-btn:hover, .cat-btn.active {
-  background: #2490ff;
-  color: #ffffff;
-  border-color: #2490ff;
-}
-
-/* --- SUBMENÚ HAMBURGUESA (ACORDEÓN) --- */
-.side-menu-accordion {
-  width: 100%;
-}
-
-.side-menu-accordion summary {
-  cursor: pointer;
-  padding: 15px 25px;
-  color: #d9e5f5;
-  font-size: 16px;
-  font-weight: 600;
-  border-bottom: 1px solid #1f3350;
-  list-style: none; /* Oculta la flecha por defecto en algunos navegadores */
-}
-
-/* Estilo para la flecha nativa si no se oculta del todo */
-.side-menu-accordion summary::-webkit-details-marker {
-  display: none;
-}
-
-.side-menu-accordion summary:hover {
-  background: #0a1728;
-  color: #2490ff;
-}
-
-.accordion-content {
-  background: #050d18;
-  display: flex;
-  flex-direction: column;
-}
-
-.accordion-content a {
-  padding: 12px 25px 12px 45px !important; /* Mayor padding a la izquierda para simular submenú */
-  font-size: 14px !important;
-  color: #9eb1ca !important;
-  border-bottom: 1px solid #0a1728 !important;
-}
-
-.accordion-content a:hover {
-  color: #2490ff !important;
-  background: #081426;
-}
-
-/* --- ICONOS EN EL MENÚ LATERAL --- */
-.menu-icon-link {
-  display: flex !important; /* Forza Flexbox para alinear texto con imagen */
-  align-items: center;
-  gap: 12px; 
-}
-
-.menu-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-/* --- BOTÓN DE IMAGEN DE WHATSAPP (MODAL) --- */
-.ws-btn-image {
-  display: flex;
-  justify-content: center;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  text-decoration: none;
-}
-
-.ws-btn-image img {
-  width: 100%;
-  max-width: 220px; /* Evita que la imagen sea gigante en monitores grandes */
-  height: auto;
-  transition: transform 0.2s ease;
-  cursor: pointer;
-}
-
-.ws-btn-image:hover img {
-  transform: scale(1.05); /* Pequeño efecto de zoom al pasar el mouse */
-}
-/* --- CONTENEDOR FIJO (STICKY) AL HACER SCROLL --- */
-.sticky-header {
-  position: -webkit-sticky; /* Para compatibilidad con Safari */
-  position: sticky;
-  top: 90px; /* Se pega al borde superior */
-  z-index: 99; /* Asegura que esté por encima de los productos */
-  background-color: #050d18; /* Fondo oscuro para tapar lo que pasa por debajo */
-  padding-top: 15px; /* Da un poco de respiro arriba */
-  margin-bottom: 10px;
+  .nav-social-link { width: 40px; height: 40px; }
+  .cat-card { height: 120px; }
+  .cat-card h3 { font-size: 16px; bottom: 12px; left: 12px; }
 }
