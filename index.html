@@ -3,23 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CAS</title>
-
+  <title>CAS | Catálogo</title>
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="style.css"> 
 </head>
-
 <body class="index-page">
 
   <nav class="navbar">
     <button type="button" class="menu-toggle" onclick="openSideMenu()" aria-label="Abrir menu" aria-controls="sideMenu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </button>
     <a href="index.html" class="nav-brand nav-home-link" aria-label="Volver al inventario">
       <img src="ronaldo.png" alt="Logo" class="nav-logo" onerror="this.style.display='none'">
@@ -36,18 +31,19 @@
   <div class="side-menu-overlay" id="sideMenuOverlay" onclick="closeSideMenu()"></div>
   <aside class="side-menu" id="sideMenu" aria-hidden="true">
     <div class="side-menu-header">
-      <span>Menu</span>
-      <button type="button" class="side-menu-close" onclick="closeSideMenu()" aria-label="Cerrar menu">&times;</button>
+      <span>Menú</span>
+      <button type="button" class="side-menu-close" onclick="closeSideMenu()">&times;</button>
     </div>
     <nav class="side-menu-links">
       <details class="side-menu-accordion">
         <summary>Categorías</summary>
         <div class="accordion-content">
-          <a href="index.html#catalogFilters">Todas las Prendas</a>
-          <a href="index.html#catalogFilters">Selecciones</a>
-          <a href="index.html#catalogFilters">Europa</a>
-          <a href="index.html#catalogFilters">Conmebol/Concacaf</a>
-          <a href="index.html#catalogFilters">Otros</a>
+          <a href="#" onclick="selectCategory('Ofertas'); closeSideMenu(); return false;">🔥 Ofertas</a>
+          <a href="#" onclick="selectCategory('Todas las prendas'); closeSideMenu(); return false;">Todas las Prendas</a>
+          <a href="#" onclick="selectCategory('Selecciones'); closeSideMenu(); return false;">Selecciones</a>
+          <a href="#" onclick="selectCategory('Equipos Europeos'); closeSideMenu(); return false;">Equipos Europeos</a>
+          <a href="#" onclick="selectCategory('Conmebol/Concacaf'); closeSideMenu(); return false;">Conmebol/Concacaf</a>
+          <a href="#" onclick="selectCategory('Otros'); closeSideMenu(); return false;">Otros</a>
         </div>
       </details>
       <a href="https://wa.me/50258656376" target="_blank" rel="noopener" class="menu-icon-link">
@@ -56,7 +52,7 @@
       <a href="https://www.instagram.com/centralamericashirts/" target="_blank" rel="noopener" class="menu-icon-link">
         <img src="instagram_logo.svg" alt="Instagram" class="menu-icon"> Ver Instagram
       </a>
-      <a href="index.html#futureEvents">Futuros Eventos</a>
+      <a href="#storeInfo" onclick="closeSideMenu()">Información de la tienda</a>
     </nav>
   </aside>
 	
@@ -64,103 +60,103 @@
     <div class="slider-container">
       <div class="slider-track">
         <div class="slider-group">
-          <img src="bannerImages/cas1.jpg" alt="Jersey 1">
-          <img src="bannerImages/cas2.jpg" alt="Jersey 2">
-          <img src="bannerImages/cas3.jpg" alt="Jersey 3">
-          <img src="bannerImages/cas4.jpg" alt="Jersey 4">
-          <img src="bannerImages/cas5.jpg" alt="Jersey 5">
-          <img src="bannerImages/cas6.jpg" alt="Jersey 6">
-          <img src="bannerImages/cas7.jpg" alt="Jersey 7">
-          <img src="bannerImages/cas8.jpg" alt="Jersey 8">
-          <img src="bannerImages/cas9.jpg" alt="Jersey 9">
-          <img src="bannerImages/cas10.jpg" alt="Jersey 10">
-		  <img src="bannerImages/cas11.jpg" alt="Jersey 11">
+          <img src="bannerImages/cas1.jpg" alt="Jersey 1"><img src="bannerImages/cas2.jpg" alt="Jersey 2"><img src="bannerImages/cas3.jpg" alt="Jersey 3"><img src="bannerImages/cas4.jpg" alt="Jersey 4"><img src="bannerImages/cas5.jpg" alt="Jersey 5"><img src="bannerImages/cas6.jpg" alt="Jersey 6"><img src="bannerImages/cas7.jpg" alt="Jersey 7"><img src="bannerImages/cas8.jpg" alt="Jersey 8"><img src="bannerImages/cas9.jpg" alt="Jersey 9"><img src="bannerImages/cas10.jpg" alt="Jersey 10"><img src="bannerImages/cas11.jpg" alt="Jersey 11">
         </div>
         <div class="slider-group">
-          <img src="bannerImages/cas1.jpg" alt="Jersey 1">
-          <img src="bannerImages/cas2.jpg" alt="Jersey 2">
-          <img src="bannerImages/cas3.jpg" alt="Jersey 3">
-          <img src="bannerImages/cas4.jpg" alt="Jersey 4">
-          <img src="bannerImages/cas5.jpg" alt="Jersey 5">
-          <img src="bannerImages/cas6.jpg" alt="Jersey 6">
-          <img src="bannerImages/cas7.jpg" alt="Jersey 7">
-          <img src="bannerImages/cas8.jpg" alt="Jersey 8">
-          <img src="bannerImages/cas9.jpg" alt="Jersey 9">
-		  <img src="bannerImages/cas11.jpg" alt="Jersey 11">
-		  <img src="bannerImages/cas12.jpg" alt="Jersey 12">
+          <img src="bannerImages/cas1.jpg" alt="Jersey 1"><img src="bannerImages/cas2.jpg" alt="Jersey 2"><img src="bannerImages/cas3.jpg" alt="Jersey 3"><img src="bannerImages/cas4.jpg" alt="Jersey 4"><img src="bannerImages/cas5.jpg" alt="Jersey 5"><img src="bannerImages/cas6.jpg" alt="Jersey 6"><img src="bannerImages/cas7.jpg" alt="Jersey 7"><img src="bannerImages/cas8.jpg" alt="Jersey 8"><img src="bannerImages/cas9.jpg" alt="Jersey 9"><img src="bannerImages/cas11.jpg" alt="Jersey 11"><img src="bannerImages/cas12.jpg" alt="Jersey 12">
         </div>
       </div>
-		</div>
-	  </div>     
-	  <div class="sticky-header">
-	    <div class="home-message-group">
-	      <h2>STOCK DISPONIBLE EN TIENDA - LA POPULAR</h2>
-	      <label2>Vía 4 1-17 Zona 4, 4 Grados Norte</label2>
-	    </div>    
-	    
-	    <div class="categories-horizontal-bar">
-	      <button class="cat-btn active">Todas las Prendas</button>
-	      <button class="cat-btn">Selecciones</button>
-	      <button class="cat-btn">Europa</button>
-	      <button class="cat-btn">Conmebol/Concacaf</button>
-	      <button class="cat-btn">Otros</button>
-	    </div>
-	  </div>
-	  <div class="container">
-	    <div class="filters-container" id="catalogFilters">
-      <div class="filters-grid">
-        <div class="field-group">
-          <label>Buscar por Equipo ó Código</label>
-          <input type="text" id="searchInput" placeholder="Ej: Milan..." oninput="applyFilters()">
+	</div>
+  </div>     
+
+  <div class="sticky-header" id="storeInfo">
+    <div class="home-message-group">
+      <h2>STOCK DISPONIBLE EN TIENDA - LA POPULAR</h2>
+      <label2>Vía 4 1-17 Zona 4, 4 Grados Norte</label2>
+    </div>    
+  </div>
+
+  <div class="container">
+    <div class="category-cards-grid" id="categoryGrid">
+        <div class="cat-card" onclick="selectCategory('Ofertas')" style="background-image: url('bannerImages/cat_ofertas.jpg')">
+            <div class="cat-overlay"></div>
+            <h3>Ofertas</h3>
         </div>
-        <div class="field-group">
-          <label>Talla</label>
-          <select id="sizeFilter" onchange="applyFilters()">
-            <option value="">Todas</option>
-            <option>XS</option><option>S</option><option>M</option><option>L</option>
-            <option>XL</option><option>XXL</option>
-          </select>
+        <div class="cat-card" onclick="selectCategory('Todas las prendas')" style="background-image: url('bannerImages/cat_todas.jpg')">
+            <div class="cat-overlay"></div>
+            <h3>Todas las prendas</h3>
         </div>
-        <div class="field-group">
-          <label>Tipo de Camisola</label>
-          <select id="typeFilter" onchange="applyFilters()">
-            <option value="">Todos</option>
-            <option>Casa</option><option>Visita</option><option>Entrenamiento</option>
-            <option>Firmada</option><option>Otros</option>
-          </select>
+        <div class="cat-card" onclick="selectCategory('Selecciones')" style="background-image: url('bannerImages/cat_selecciones.jpg')">
+            <div class="cat-overlay"></div>
+            <h3>Selecciones</h3>
         </div>
-        <div class="field-group">
-          <label>Ordenar por</label>
-          <select id="sortOrder" onchange="applyFilters()">
-            <option value="none">ID de producto</option>
-            <option value="p-low">Precio: Menor a Mayor</option>
-            <option value="p-high">Precio: Mayor a Menor</option>
-            <option value="az">A - Z</option>
-          </select>
+        <div class="cat-card" onclick="selectCategory('Equipos Europeos')" style="background-image: url('bannerImages/cat_europa.jpg')">
+            <div class="cat-overlay"></div>
+            <h3>Equipos Europeos</h3>
         </div>
-        <div class="field-group">
-          <label>Mostrar</label>
-          <select id="perPage" onchange="changePerPage()">
-            <option value="25">25 por página</option>
-            <option value="50">50 por página</option>
-            <option value="75">75 por página</option>
-            <option value="100">100 por página</option>
-          </select>
+        <div class="cat-card" onclick="selectCategory('Conmebol/Concacaf')" style="background-image: url('bannerImages/cat_conmebol.jpg')">
+            <div class="cat-overlay"></div>
+            <h3>Conmebol / Concacaf</h3>
         </div>
-      </div>
+        <div class="cat-card" onclick="selectCategory('Otros')" style="background-image: url('bannerImages/cat_otros.jpg')">
+            <div class="cat-overlay"></div>
+            <h3>Otros</h3>
+        </div>
     </div>
 
-    <div id="resultCount" style="margin-bottom:15px; color:#9eb1ca; font-size: 14px;">Cargando...</div>
-    
-    <div class="catalog-grid" id="catalogGrid">
-      <div class="loading">Cargando inventario...</div>
+    <div id="inventorySection" style="display: none;">
+        <div class="active-category-header">
+            <button class="secondary-btn" onclick="backToCategories()">← Volver a Categorías</button>
+            <h2 id="currentCategoryTitle" style="margin:0; color:#2490ff;">Categoría</h2>
+        </div>
+
+        <div class="filters-container" id="catalogFilters">
+          <div class="filters-grid">
+            <div class="field-group">
+              <label>Buscar por Equipo ó Código</label>
+              <input type="text" id="searchInput" placeholder="Ej: Milan..." oninput="applyFilters()">
+            </div>
+            <div class="field-group">
+              <label>Talla</label>
+              <select id="sizeFilter" onchange="applyFilters()">
+                <option value="">Todas</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Tipo de Camisola</label>
+              <select id="typeFilter" onchange="applyFilters()">
+                <option value="">Todos</option><option>Casa</option><option>Visita</option><option>Entrenamiento</option><option>Firmada</option><option>Otros</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Ordenar por</label>
+              <select id="sortOrder" onchange="applyFilters()">
+                <option value="none">ID de producto</option>
+                <option value="p-low">Precio: Menor a Mayor</option>
+                <option value="p-high">Precio: Mayor a Menor</option>
+                <option value="az">A - Z</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Mostrar</label>
+              <select id="perPage" onchange="changePerPage()">
+                <option value="25">25 por página</option><option value="50">50 por página</option><option value="75">75 por página</option><option value="100">100 por página</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="resultCount" style="margin-bottom:15px; color:#9eb1ca; font-size: 14px;">Cargando...</div>
+        
+        <div class="catalog-grid" id="catalogGrid">
+          <div class="loading">Selecciona una categoría para ver prendas...</div>
+        </div>
+        <div class="pagination-controls" id="paginationControls" style="display: none;">
+          <button class="secondary-btn" id="prevPageBtn" onclick="changePage(-1)">Anterior</button>
+          <span id="pageIndicator" style="color: #d9e5f5; font-weight: 600;">Página 1 de 1</span>
+          <button class="secondary-btn" id="nextPageBtn" onclick="changePage(1)">Siguiente</button>
+        </div>
     </div>
-    <div class="pagination-controls" id="paginationControls" style="display: none;">
-      <button class="secondary-btn" id="prevPageBtn" onclick="changePage(-1)">Anterior</button>
-      <span id="pageIndicator" style="color: #d9e5f5; font-weight: 600;">Página 1 de 1</span>
-      <button class="secondary-btn" id="nextPageBtn" onclick="changePage(1)">Siguiente</button>
-    </div>
-    <div id="futureEvents" class="future-events-anchor"></div>
   </div>
 
   <div class="modal" id="productModal" style="display:none; position:fixed; z-index:1001; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.85); justify-content:center; align-items:center; padding:20px;">
@@ -169,8 +165,7 @@
       
       <div style="flex:1; min-width:300px; background:#0a1728; position:relative; display:flex; flex-direction:column;">
         <img id="modalMainImage" src="" style="width:100%; height:400px; object-fit:contain; padding:20px;">
-        <div id="modalThumbnails" style="display:flex; overflow-x:auto; gap:10px; padding:15px; background:#07111f; min-height:90px;">
-           </div>
+        <div id="modalThumbnails" style="display:flex; overflow-x:auto; gap:10px; padding:15px; background:#07111f; min-height:90px;"></div>
       </div>
       
       <div style="flex:1; min-width:300px; padding:30px; display:flex; flex-direction:column;">
@@ -188,7 +183,7 @@
         <a id="modalWsBtn" href="#" class="ws-btn-image" target="_blank">
           <img src="whatsapp_logo.png" alt="Consultar por WhatsApp">
         </a>
-        <a id="modalFullPageBtn" href="#" class="secondary-btn full-page-btn">Ver pagina completa</a>
+        <a id="modalFullPageBtn" href="#" class="secondary-btn full-page-btn">Ver página completa</a>
       </div>
     </div>
   </div>
