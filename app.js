@@ -256,9 +256,21 @@ function render() {
   const end = start + itemsPerPage;
   const pageItems = filteredItems.slice(start, end);
 
-  // Mantenemos la estructura pero añadimos estilos de seguridad para evitar que la imagen sea gigante
   grid.innerHTML = pageItems.map(item => {
     const images = getProductImages(item);
+    
+    // Lógica para mostrar Precio Normal vs Oferta
+    const oferta = item.precioOferta || item.Precio_Oferta;
+    const hasSale = oferta !== undefined && oferta !== null && String(oferta).trim() !== "" && Number(oferta) !== 0;
+    
+    const priceHTML = hasSale 
+        ? `<span style="text-decoration: line-through; color: #9eb1ca; font-size: 14px; margin-right: 6px;">Q${item.precio}</span>Q${oferta}`
+        : `Q${item.precio}`;
+
+    // Lógica para el botón directo de WhatsApp
+    const wsMessage = `¡Hola! Me interesa la camisola de ${item.equipo} (Talla: ${item.talla}, SKU: ${item.sku}) que vi en su catálogo web. ¿Está disponible?`;
+    const wsUrl = `https://wa.me/${WS_NUMBER.replace('+', '')}?text=${encodeURIComponent(wsMessage)}`;
+
     return `
       <div class="product-card" onclick="openProductModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" style="cursor:pointer; border: 1px solid #1f3350; border-radius: 12px; overflow: hidden; background: #0a1728; transition: transform 0.2s;">
         <div class="product-image-wrapper" style="width: 100%; height: 280px; overflow: hidden; background: #07111f;">
@@ -268,7 +280,16 @@ function render() {
           <div class="product-sku" style="color: #9eb1ca; font-size: 12px; margin-bottom: 5px;">${item.sku}</div>
           <h3 class="product-title" style="color: #fff; margin-bottom: 5px; font-size: 16px;">${item.equipo}</h3>
           <div class="product-meta" style="color: #d9e5f5; font-size: 13px; margin-bottom: 10px;">Talla: ${item.talla} | ${item.tipo}</div>
-          <div class="product-price" style="color: #2490ff; font-size: 18px; font-weight: bold;">Q${item.precio}</div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+            <div class="product-price" style="color: #2490ff; font-size: 18px; font-weight: bold;">
+              ${priceHTML}
+            </div>
+            <a href="${wsUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation();" aria-label="Consultar por WhatsApp" style="display: flex; align-items: center; justify-content: center; background: #25D366; border-radius: 8px; width: 34px; height: 34px; flex-shrink: 0; transition: opacity 0.2s;">
+              <img src="whatsapp_logo.png" alt="WhatsApp" style="width: 20px; height: 20px;">
+            </a>
+          </div>
+
         </div>
       </div>
     `;
